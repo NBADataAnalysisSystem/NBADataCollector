@@ -53,9 +53,9 @@ public class PlayerLogic implements PlayerLogicService {
 		}
 		
 		//TODO 处理list
-		for (PlayerBasicInfo playerBasicInfo : list) {
-			System.out.println(playerBasicInfo);
-		}
+		//for (PlayerBasicInfo playerBasicInfo : list) {
+		//	System.out.println(playerBasicInfo);
+		//}
 		
 		webClient.close();
 	}
