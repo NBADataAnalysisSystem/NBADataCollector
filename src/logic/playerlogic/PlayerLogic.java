@@ -16,6 +16,8 @@ import logicservice.playerlogicservice.PlayerLogicService;
 
 public class PlayerLogic implements PlayerLogicService {
 
+	final String INDEX_URL = "http://china.nba.com";
+	
 	public void getPlayerBasicInfo() {
 		WebClient webClient = new WebClient();
 		webClient.getOptions().setCssEnabled(false);
@@ -24,7 +26,7 @@ public class PlayerLogic implements PlayerLogicService {
 		ArrayList<PlayerBasicInfo> list = new ArrayList<PlayerBasicInfo>();
 		
 		try {
-			HtmlPage indexPage = webClient.getPage("http://china.nba.com/");
+			HtmlPage indexPage = webClient.getPage(INDEX_URL);
 			HtmlAnchor playerBtn = indexPage.getAnchorByText("球员");
 			HtmlPage playerPage = playerBtn.click();
 			Document document = Jsoup.parse(playerPage.asXml(), "UTF-8");
@@ -34,6 +36,7 @@ public class PlayerLogic implements PlayerLogicService {
 				if (!player.text().contains("team.")) {
 					Elements playerInfoList = player.select("td");
 					PlayerBasicInfo playerBasicInfo = new PlayerBasicInfo();
+					playerBasicInfo.setPath(INDEX_URL + playerInfoList.get(0).select("a").attr("href"));
 					String name = playerInfoList.get(0).text().replace(" ", "");
 					playerBasicInfo.setEnglishName(name.split(" ")[0]);
 					playerBasicInfo.setChineseName(name.split(" ")[1]);

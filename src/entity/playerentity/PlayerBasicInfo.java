@@ -2,6 +2,7 @@ package entity.playerentity;
 
 public class PlayerBasicInfo {
 	
+	private String path;
 	private String englishName;
 	private String chineseName;
 	private String team;
@@ -11,6 +12,7 @@ public class PlayerBasicInfo {
 	private String exp;
 
 	public PlayerBasicInfo() {
+		path = "";
 		englishName = "";
 		chineseName = "";
 		team = "";
@@ -19,7 +21,15 @@ public class PlayerBasicInfo {
 		weight = "";
 		exp ="";
 	}
-	
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public String getEnglishName() {
 		return englishName;
 	}
@@ -76,10 +86,11 @@ public class PlayerBasicInfo {
 		this.exp = exp;
 	}
 
+	@Override
 	public String toString() {
-		return "PlayerBasicInfo [englishName=" + englishName + ", chineseName="
-				+ chineseName + ", team=" + team + ", position=" + position
-				+ ", height=" + height + ", weight=" + weight + ", exp=" + exp
-				+ "]";
+		return "PlayerBasicInfo [path=" + path + ", englishName=" + englishName
+				+ ", chineseName=" + chineseName + ", team=" + team
+				+ ", position=" + position + ", height=" + height + ", weight="
+				+ weight + ", exp=" + exp + "]";
 	}
 }
