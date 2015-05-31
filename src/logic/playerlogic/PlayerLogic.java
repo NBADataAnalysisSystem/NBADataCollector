@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,6 +23,7 @@ import logicservice.playerlogicservice.PlayerLogicService;
 
 public class PlayerLogic implements PlayerLogicService {
 
+	private final static Logger log = Logger.getRootLogger();
 	final String INDEX_URL = "http://china.nba.com";
 	final String DATA_PATH = "./res";
 	
@@ -61,10 +63,11 @@ public class PlayerLogic implements PlayerLogicService {
 		
 		webClient.close();
 		
-		//TODO 处理list
+		log.info("开始收集球员头像");
 		for (PlayerBasicInfo playerBasicInfo : list) {
 			getPlayerHeadPicture(playerBasicInfo, DATA_PATH + "/player/head/");
 		}
+		log.info("球员头像收集完成");
 	}
 	
 	private void getPlayerHeadPicture(PlayerBasicInfo player, String path) {

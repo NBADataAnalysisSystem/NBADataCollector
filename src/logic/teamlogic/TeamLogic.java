@@ -14,7 +14,7 @@ import entity.teamentity.TeamBasicInfo;
 import logicservice.teamlogicservice.TeamLogicService;
 
 public class TeamLogic implements TeamLogicService {
-	
+
 	final String INDEX_URL = "http://china.nba.com";
 	
 	public void getTeamBasicInfo() {
