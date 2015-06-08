@@ -2,8 +2,8 @@ package init;
 
 import org.apache.log4j.Logger;
 
-import logic.teamlogic.TeamLogic;
-import logicservice.teamlogicservice.TeamLogicService;
+import logic.matchlogic.MatchLogic;
+import logicservice.matchlogicservice.MatchLogicService;
 
 public class Main {
 	
@@ -17,10 +17,15 @@ public class Main {
 		//playerLogic.getPlayerBasicInfo();
 		//log.info("球员基本信息采集完成");
 		
-		log.info("开始采集球队基本信息");
-		TeamLogicService teamLogic = new TeamLogic();
-		teamLogic.getTeamBasicInfo();
-		log.info("球队基本信息采集完成");
+		//log.info("开始采集球队基本信息");
+		//TeamLogicService teamLogic = new TeamLogic();
+		//teamLogic.getTeamBasicInfo();
+		//log.info("球队基本信息采集完成");
+		
+		log.info("开始采集比赛基本信息");
+		MatchLogicService matchLogic = new MatchLogic();
+		matchLogic.getMatchBasicInfo();
+		log.info("比赛基本信息采集完成");
 		
 		log.info("采集数据完成");
 	}

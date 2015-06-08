@@ -18,6 +18,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import data.DataJdbcImp;
 import entity.playerentity.PlayerBasicInfo;
 import logicservice.playerlogicservice.PlayerLogicService;
 
@@ -80,8 +81,10 @@ public class PlayerLogic implements PlayerLogicService {
 		}
 		
 		webClient.close();
-		
-		//TODO 在这里调用data层对应方法储存list里的内容
+
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storePlayer(list);
+		dataJdbcImp.close();
 		
 		log.info("开始收集球员头像");
 		for (PlayerBasicInfo playerBasicInfo : list) {

@@ -9,6 +9,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import data.DataJdbcImp;
 import entity.teamentity.TeamBasicInfo;
 import logicservice.teamlogicservice.TeamLogicService;
 
@@ -50,7 +51,9 @@ public class TeamLogic implements TeamLogicService {
 			e.printStackTrace();
 		}
 		
-		//TODO 在这里调用data层对应方法储存list里的内容
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storeTeam(list);
+		dataJdbcImp.close();
 		
 		webClient.close();
 	}
