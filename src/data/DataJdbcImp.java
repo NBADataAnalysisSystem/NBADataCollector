@@ -12,7 +12,7 @@ import entity.teamentity.TeamBasicInfo;
 
 public class DataJdbcImp {
 	Connection connection = null;
-	DataJdbcImp(){
+	public DataJdbcImp(){
 		try {
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
