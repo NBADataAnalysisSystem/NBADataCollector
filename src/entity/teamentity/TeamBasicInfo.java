@@ -2,33 +2,85 @@ package entity.teamentity;
 
 public class TeamBasicInfo {
 
-	private String path;
-	private String name;
+	private String id;
+	private String fullName;
+	private String abbreviation;
+	private String location;
+	private String division;
+	private String section;
+	private String setUpTime;
 	
 	public TeamBasicInfo() {
-		path = "";
-		name = "";
+		id = "";
+		fullName = "";
+		abbreviation = "";
+		location = "";
+		division = "";
+		section = "";
+		setUpTime = "";
 	}
 
-	public String getPath() {
-		return path;
+	public String getId() {
+		return id;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(String division) {
+		this.division = division;
+	}
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
+	public String getSetUpTime() {
+		return setUpTime;
+	}
+
+	public void setSetUpTime(String setUpTime) {
+		this.setUpTime = setUpTime;
 	}
 
 	@Override
 	public String toString() {
-		return "TeamBasicInfo [path=" + path + ", name=" + name + "]";
+		return "TeamBasicInfo [id=" + id + ", fullName=" + fullName
+				+ ", abbreviation=" + abbreviation + ", location=" + location
+				+ ", division=" + division + ", section=" + section
+				+ ", setUpTime=" + setUpTime + "]";
 	}
-	
 }
