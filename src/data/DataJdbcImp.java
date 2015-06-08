@@ -91,6 +91,7 @@ public class DataJdbcImp {
 				prep.addBatch();
 			}
 			prep.executeBatch();
+			connection.commit();
 			prep.close();
 		}catch(Exception e){
 			e.printStackTrace();
@@ -112,6 +113,7 @@ public class DataJdbcImp {
 				prep.addBatch();
 			}
 			prep.executeBatch();
+			connection.commit();
 			prep.close();
 		}catch(Exception e){
 			e.printStackTrace();
