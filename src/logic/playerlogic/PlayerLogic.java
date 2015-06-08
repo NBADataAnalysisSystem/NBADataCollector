@@ -44,12 +44,30 @@ public class PlayerLogic implements PlayerLogicService {
 				Element player = playerList.get(i);
 				if (!player.text().contains("team.")) {
 					Elements playerInfoList = player.select("td");
+					
 					PlayerBasicInfo playerBasicInfo = new PlayerBasicInfo();
-					playerBasicInfo.setPath(INDEX_URL + playerInfoList.get(0).select("a").attr("href"));
+					
+					HtmlAnchor playerPersonalBtn = playerPage.getAnchorByHref(
+							playerInfoList.get(0).select("a").attr("href"));
+					HtmlPage playerPersonalPage = playerPersonalBtn.click();
+					Document playerPersonalDoc = Jsoup.parse(playerPersonalPage.asXml(), "UTF-8");
+					String jerseyNo = playerPersonalDoc.getElementsByClass("jersey_no").text();
+					playerBasicInfo.setJerseyNo(jerseyNo);
+					
+					Elements values = playerPersonalDoc.getElementsByClass("value");
+					playerBasicInfo.setBirthday(values.get(2).text());
+					playerBasicInfo.setSchool(values.get(5).text());
+					
+					Element teamElement = playerPersonalDoc.getElementsByClass("headerLogoWrapper").get(0);
+					playerBasicInfo.setTeam(teamElement.html().split("  ")[1].substring(0, 3));
+					
+					String playerPath = playerInfoList.get(0).select("a").attr("href");
+					int index = playerPath.lastIndexOf("/");
+					String id = playerPath.substring(index+1, playerPath.lastIndexOf("_"));
+					playerBasicInfo.setId(id);
+					
 					String name = playerInfoList.get(0).text().replace(" ", "");
-					playerBasicInfo.setEnglishName(name.split(" ")[0]);
-					playerBasicInfo.setChineseName(name.split(" ")[1]);
-					playerBasicInfo.setTeam(playerInfoList.get(1).text());
+					playerBasicInfo.setName(name.split(" ")[0]);
 					playerBasicInfo.setPosition(playerInfoList.get(2).text());
 					playerBasicInfo.setHeight(playerInfoList.get(3).text());
 					playerBasicInfo.setWeight(playerInfoList.get(4).text());
@@ -63,6 +81,8 @@ public class PlayerLogic implements PlayerLogicService {
 		
 		webClient.close();
 		
+		//TODO 在这里调用data层对应方法储存list里的内容
+		
 		log.info("开始收集球员头像");
 		for (PlayerBasicInfo playerBasicInfo : list) {
 			getPlayerHeadPicture(playerBasicInfo, DATA_PATH + "/player/head/");
@@ -72,11 +92,8 @@ public class PlayerLogic implements PlayerLogicService {
 	
 	private void getPlayerHeadPicture(PlayerBasicInfo player, String path) {
 		try {
-			String playerPath = player.getPath();
-			int i = playerPath.lastIndexOf("/");
-			String id = playerPath.substring(i+1, playerPath.lastIndexOf("_"));
 			String url = "http://china.nba.com/media/img/players/head/230x185/"
-					+ id + ".png";
+					+ player.getId() + ".png";
 			BufferedInputStream in;
 			try {
 				in = new BufferedInputStream(new URL(url).openStream());
@@ -87,7 +104,7 @@ public class PlayerLogic implements PlayerLogicService {
 			}
 			
 			BufferedOutputStream out = new BufferedOutputStream(
-					new FileOutputStream(new File(path + player.getEnglishName() + ".png")));
+					new FileOutputStream(new File(path + player.getName() + ".png")));
 			byte[] buff = new byte[2048];
 			int length = in.read(buff);
 			while (length != -1) {

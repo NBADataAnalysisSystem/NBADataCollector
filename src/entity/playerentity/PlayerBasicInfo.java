@@ -2,48 +2,44 @@ package entity.playerentity;
 
 public class PlayerBasicInfo {
 	
-	private String path;
-	private String englishName;
-	private String chineseName;
+	private String id;
+	private String name;
 	private String team;
 	private String position;
 	private String height;
 	private String weight;
 	private String exp;
+	private String jerseyNo;
+	private String birthday;
+	private String school;
 
 	public PlayerBasicInfo() {
-		path = "";
-		englishName = "";
-		chineseName = "";
+		id = "";
+		name = "";
 		team = "";
 		position = "";
 		height = "";
 		weight = "";
-		exp ="";
+		exp = "";
+		jerseyNo = "";
+		birthday = "";
+		school = "";
 	}
 
-	public String getPath() {
-		return path;
+	public String getId() {
+		return id;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getEnglishName() {
-		return englishName;
+	public String getName() {
+		return name;
 	}
 
-	public void setEnglishName(String englishName) {
-		this.englishName = englishName;
-	}
-
-	public String getChineseName() {
-		return chineseName;
-	}
-
-	public void setChineseName(String chineseName) {
-		this.chineseName = chineseName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getTeam() {
@@ -86,11 +82,36 @@ public class PlayerBasicInfo {
 		this.exp = exp;
 	}
 
+	public String getJerseyNo() {
+		return jerseyNo;
+	}
+
+	public void setJerseyNo(String jerseyNo) {
+		this.jerseyNo = jerseyNo;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
 	@Override
 	public String toString() {
-		return "PlayerBasicInfo [path=" + path + ", englishName=" + englishName
-				+ ", chineseName=" + chineseName + ", team=" + team
-				+ ", position=" + position + ", height=" + height + ", weight="
-				+ weight + ", exp=" + exp + "]";
+		return "PlayerBasicInfo [id=" + id + ", name=" + name + ", team="
+				+ team + ", position=" + position + ", height=" + height
+				+ ", weight=" + weight + ", exp=" + exp + ", jerseyNo="
+				+ jerseyNo + ", birthday=" + birthday + ", school=" + school
+				+ "]";
 	}
 }
