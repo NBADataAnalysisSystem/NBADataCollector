@@ -99,7 +99,7 @@ public class DataJdbcImp {
 	public void storeTeam(ArrayList<TeamBasicInfo> list){
 		PreparedStatement prep =null;
 		try{
-			prep = connection.prepareStatement("insert into Player values("
+			prep = connection.prepareStatement("insert into Team values("
 					+ "?,?,?,?,?,?)");
 			for(int i =0 ; i < list.size() ; i ++){
 				prep.setString(1,list.get(i).getFullName());
