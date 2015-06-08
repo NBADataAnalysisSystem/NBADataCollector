@@ -2,8 +2,13 @@ package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import entity.playerentity.PlayerBasicInfo;
+import entity.teamentity.TeamBasicInfo;
 
 public class DataJdbcImp {
 	Connection connection = null;
@@ -11,6 +16,7 @@ public class DataJdbcImp {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+			connection.setAutoCommit(false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,6 +70,51 @@ public class DataJdbcImp {
 			}
 		}
 		
+	}
+	
+	public void storePlayer(ArrayList<PlayerBasicInfo> list){
+		PreparedStatement prep =null;
+		try{
+			prep = connection.prepareStatement("insert into Player values("
+					+ "?,?,?,?,?,?,?,?,?)");
+			for(int i =0 ; i < list.size() ; i ++){
+				prep.setString(1,list.get(i).getName());
+				prep.setString(2,list.get(i).getPosition());
+				prep.setString(3,list.get(i).getJerseyNo());
+				prep.setString(4,list.get(i).getTeam());
+				prep.setString(5,list.get(i).getHeight());
+				prep.setString(6,list.get(i).getWeight());
+				prep.setString(7,list.get(i).getBirthday());
+				prep.setString(8,list.get(i).getExp());
+				prep.setString(9,list.get(i).getSchool());
+				prep.addBatch();
+			}
+			prep.executeBatch();
+			prep.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void storeTeam(ArrayList<TeamBasicInfo> list){
+		PreparedStatement prep =null;
+		try{
+			prep = connection.prepareStatement("insert into Player values("
+					+ "?,?,?,?,?,?)");
+			for(int i =0 ; i < list.size() ; i ++){
+				prep.setString(1,list.get(i).getFullName());
+				prep.setString(2,list.get(i).getAbbreviation());
+				prep.setString(3,list.get(i).getLocation());
+				prep.setString(4,list.get(i).getDivision());
+				prep.setString(5,list.get(i).getSection());
+				prep.setString(6,list.get(i).getSetUpTime());
+				prep.addBatch();
+			}
+			prep.executeBatch();
+			prep.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String [] args){
