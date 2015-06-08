@@ -64,6 +64,7 @@ public class DataJdbcImp {
 				stat.execute(PlayerSql);
 				stat.execute(PlayerMatchSql);
 				stat.execute(TeamSql);
+				stat.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,6 +113,14 @@ public class DataJdbcImp {
 			}
 			prep.executeBatch();
 			prep.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void close(){
+		try{
+			connection.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
