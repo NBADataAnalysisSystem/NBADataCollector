@@ -80,8 +80,8 @@ public class DataJdbcImp {
 					+ "?,?,?,?,?,?,?,?,?)");
 			for(int i =0 ; i < list.size() ; i ++){
 				prep.setString(1,list.get(i).getName());
-				prep.setString(2,list.get(i).getPosition());
-				prep.setString(3,list.get(i).getJerseyNo());
+				prep.setString(2,list.get(i).getJerseyNo());
+				prep.setString(3,list.get(i).getPosition());
 				prep.setString(4,list.get(i).getTeam());
 				prep.setString(5,list.get(i).getHeight());
 				prep.setString(6,list.get(i).getWeight());
