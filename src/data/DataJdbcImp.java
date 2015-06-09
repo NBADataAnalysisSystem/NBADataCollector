@@ -40,7 +40,8 @@ public class DataJdbcImp {
 				+ "AwayScore Integer,Overtime Integer);";
 		String OvertimeSql ="create table OverTime"+season+"Season(MatchID varchar(25) primary key,SerialNumber Integer,HomeScore Integer,AwayScore Integer);";
 		String PlayerSql="create table Player"+season+"Season(PlayerName varchar(10) primary key,TeamAbb varchar(4),NumOfMatch Integer,NumOfStart Integer,Rebounds Integer,"
-				+ "Assists Integer,PresenceTime Integer,ShootingPersentage Double,ThreePointPersentage Double,FreeThrowPersentage Double,"
+				+ "Assists Integer,PresenceTime Integer,Shootings Integer,Shots Integer,ShootingPersentage Double,ThreePointShootings Integer,"
+				+ "ThreePointShots Integer,ThreePointPersentage Double,FreeThrowShootings Integer,FreeThrowShots Integer,FreeThrowPersentage Double,"
 				+ "OffensiveRebounds Integer,DefensiveRebounds Integer,Steals Integer,BlockShots Integer,TurnOvers Integer,Fouls Integer,Score Integer,Efficiency Double,"
 				+ "GmSc Double,RealShootingPersentage Double,ShootingEfficiency Double,ReboundRate Double,OffensiveReboundRate Double,DefensiveReboundRate Double,"
 				+ "AssistRate Double,StealRate Double,BlockShotRate Double,TurnOverRate Double,UseRate Double );";
@@ -56,6 +57,10 @@ public class DataJdbcImp {
 				+ "Score Integer,ShootingPersentage Double,ThreePointPersentage Double,FreeThrowPersentage Double,WinRate Double,"
 				+ "AttackRound Double,DefendRound Double,OffensiveEfficiency Double,DefensiveEfficiency Double,ReboundEfficiency Double,"
 				+ "StealEfficiency Double,AssistEfficiency Double); ";
+		String TeamMatchSql="create table TeamMatch"+season+"Season(TeamAbb varchar(5),MatchID varchar(14),Shootings integer,Shots integer,"
+				+ "ThreePointShootings integer,ThreePointShots integer,FreeThrowShootings integer,FreeThrowShots integer,"
+				+ "OffensiveRebounds integer,DefensiveRebounds integer,Rebounds integer,Assists integer,Steals integer,BlockShots integer,"
+				+ "TurnOvers integer,Fouls integer,Score integer,primary key(TeamAbb,MatchID))";
 		if(!tableExists){
 			try {
 				stat = connection.createStatement();
@@ -64,6 +69,8 @@ public class DataJdbcImp {
 				stat.execute(PlayerSql);
 				stat.execute(PlayerMatchSql);
 				stat.execute(TeamSql);
+				stat.execute(TeamMatchSql);
+				connection.commit();
 				stat.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
