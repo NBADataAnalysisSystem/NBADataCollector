@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import entity.matchentity.MatchBasicInfo;
+import entity.matchentity.OverTime;
 import entity.playerentity.PlayerBasicInfo;
 import entity.teamentity.TeamBasicInfo;
 
@@ -123,6 +125,56 @@ public class DataJdbcImp {
 			connection.commit();
 			prep.close();
 		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void storeMatch(ArrayList<MatchBasicInfo> list){
+		PreparedStatement MatchPrep = null;
+		PreparedStatement OvertimePrep = null;
+		
+		try{
+			MatchPrep = connection.prepareStatement("insert into Match20132014Season values("
+					+ "?,?,?,?,?,?,?,?,?,?,"
+					+ "?,?,?,?,?)");
+			OvertimePrep = connection.prepareStatement("insert into Overtime20132014Season values("
+					+ "?,?,?,?)");
+			for(int i = 0;i <list.size();i ++ ){
+				MatchPrep.setString(1,list.get(i).getId());
+				MatchPrep.setString(2,list.get(i).getHomeTeam());
+				MatchPrep.setString(3,list.get(i).getAwayTeam());
+				MatchPrep.setString(4, list.get(i).getDate());
+				MatchPrep.setString(5,list.get(i).getHomeScore1());
+				MatchPrep.setString(6,list.get(i).getHomeScore2());
+				MatchPrep.setString(7,list.get(i).getHomeScore3());
+				MatchPrep.setString(8,list.get(i).getHomeScore4());
+				MatchPrep.setString(9,list.get(i).getAwayScore1());
+				MatchPrep.setString(10,list.get(i).getAwayScore2());
+				MatchPrep.setString(11,list.get(i).getAwayScore3());
+				MatchPrep.setString(12,list.get(i).getAwayScore4());
+				MatchPrep.setString(13,list.get(i).getHomeScore());
+				MatchPrep.setString(14,list.get(i).getAwayScore());
+				if(list.get(i).isOverTime()){
+					MatchPrep.setString(15,"1");
+					MatchPrep.addBatch();
+					ArrayList<OverTime> overtimeList=null;
+					overtimeList = list.get(i).getOverTimeList();
+					for(int j = 0;j < overtimeList.size();j ++){
+						OvertimePrep.setString(1,list.get(i).getId());
+						OvertimePrep.setString(2,overtimeList.get(j).getSerial());
+						OvertimePrep.setString(3,overtimeList.get(j).getHomeScore());
+						OvertimePrep.setString(3,overtimeList.get(j).getAwayScore());
+						OvertimePrep.addBatch();
+					}	
+				}else{
+					MatchPrep.setString(15,"0");
+					MatchPrep.addBatch();
+				}
+			}
+			MatchPrep.executeBatch();
+			OvertimePrep.executeBatch();
+			connection.commit();
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
