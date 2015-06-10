@@ -12,6 +12,7 @@ public class PlayerBasicInfo {
 	private String jerseyNo;
 	private String birthday;
 	private String school;
+	private String code;
 
 	public PlayerBasicInfo() {
 		id = "";
@@ -24,6 +25,7 @@ public class PlayerBasicInfo {
 		jerseyNo = "";
 		birthday = "";
 		school = "";
+		code = "";
 	}
 
 	public String getId() {
@@ -106,12 +108,21 @@ public class PlayerBasicInfo {
 		this.school = school;
 	}
 
+	public String getUrlName() {
+		return code;
+	}
+
+	public void setUrlName(String urlName) {
+		this.code = urlName;
+	}
+
 	@Override
 	public String toString() {
 		return "PlayerBasicInfo [id=" + id + ", name=" + name + ", team="
 				+ team + ", position=" + position + ", height=" + height
 				+ ", weight=" + weight + ", exp=" + exp + ", jerseyNo="
 				+ jerseyNo + ", birthday=" + birthday + ", school=" + school
-				+ "]";
+				+ ", urlName=" + code + "]";
 	}
+
 }
