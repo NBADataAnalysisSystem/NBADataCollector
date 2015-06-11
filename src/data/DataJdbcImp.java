@@ -149,6 +149,7 @@ public class DataJdbcImp {
 		}
 		for(int m=0;m<classifiedList.size();m++){
 			ArrayList<MatchBasicInfo> list = classifiedList.get(m);
+			checkSeason(SEASON[m]);
 		try{
 			MatchPrep = connection.prepareStatement("insert into Match20132014Season values("
 					+ "?,?,?,?,?,?,?,?,?,?,"
