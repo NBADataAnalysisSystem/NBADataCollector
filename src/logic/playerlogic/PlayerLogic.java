@@ -130,6 +130,10 @@ public class PlayerLogic implements PlayerLogicService {
 					
 					playerSeasonInfo.setNumOfMatch(statAverageJson.getString("games"));
 					playerSeasonInfo.setNumOfStart(statAverageJson.getString("gamesStarted"));
+					playerSeasonInfo.setShootingPersentage(statAverageJson.getString("fgpct"));
+					playerSeasonInfo.setThreePointShootingPersentage(statAverageJson.getString("tppct"));
+					playerSeasonInfo.setFreeThrowShootingPersentage(statAverageJson.getString("ftpct"));
+					playerSeasonInfo.setEffiency(statAverageJson.getString("efficiency"));
 					
 					playerSeasonInfo.setPresenceTime(statTotalJson.getString("mins"));
 					playerSeasonInfo.setShooting(statTotalJson.getString("fgm"));
@@ -149,7 +153,6 @@ public class PlayerLogic implements PlayerLogicService {
 					playerSeasonInfo.setScore(statTotalJson.getString("points"));
 					
 					playerSeasonInfoList.add(playerSeasonInfo);
-					System.out.println(playerSeasonInfo);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

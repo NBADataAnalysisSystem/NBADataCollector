@@ -2,8 +2,8 @@ package init;
 
 import org.apache.log4j.Logger;
 
-import logic.teamlogic.TeamLogic;
-import logicservice.teamlogicservice.TeamLogicService;
+import logic.playerlogic.PlayerLogic;
+import logicservice.playerlogicservice.PlayerLogicService;
 
 public class Main {
 	
@@ -12,11 +12,11 @@ public class Main {
 	public static void main(String[] args) {
 		log.info("开始采集数据");
 		
-		//PlayerLogicService playerLogic = new PlayerLogic();
-		//playerLogic.getPlayer();
+		PlayerLogicService playerLogic = new PlayerLogic();
+		playerLogic.getPlayer();
 		
-		TeamLogicService teamLogic = new TeamLogic();
-		teamLogic.getTeam();
+		//TeamLogicService teamLogic = new TeamLogic();
+		//teamLogic.getTeam();
 
 		//MatchLogicService matchLogic = new MatchLogic();
 		//matchLogic.getMatchBasicInfo();

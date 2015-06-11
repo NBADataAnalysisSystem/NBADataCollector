@@ -2,29 +2,30 @@ package entity.playerentity;
 
 public class PlayerSeasonInfo {
 
-	String name;
-	String season;
-	String numOfMatch;
-	String numOfStart;
-	String presenceTime;
-	String shooting;
-	String shot;
-	String shootingPersentage;
-	String threePointShooting;
-	String threePointShot;
-	String threePointShootingPersentage;
-	String freeThrowShooting;
-	String freeThrowShot;
-	String freeThrowShootingPersentage;
-	String offensiveRebounds;
-	String defensiveRebounds;
-	String rebounds;
-	String assists;
-	String steals;
-	String blockshots;
-	String turnOvers;
-	String fouls;
-	String score;
+	private String name;
+	private String season;
+	private String numOfMatch;
+	private String numOfStart;
+	private String presenceTime;
+	private String shooting;
+	private String shot;
+	private String shootingPersentage;
+	private String threePointShooting;
+	private String threePointShot;
+	private String threePointShootingPersentage;
+	private String freeThrowShooting;
+	private String freeThrowShot;
+	private String freeThrowShootingPersentage;
+	private String offensiveRebounds;
+	private String defensiveRebounds;
+	private String rebounds;
+	private String assists;
+	private String steals;
+	private String blockshots;
+	private String turnOvers;
+	private String fouls;
+	private String score;
+	private String effiency;
 	
 	public PlayerSeasonInfo() {
 		this.name = "";
@@ -236,6 +237,14 @@ public class PlayerSeasonInfo {
 		this.score = score;
 	}
 
+	public String getEffiency() {
+		return effiency;
+	}
+
+	public void setEffiency(String effiency) {
+		this.effiency = effiency;
+	}
+
 	@Override
 	public String toString() {
 		return "PlayerSeasonInfo [name=" + name + ", season=" + season
@@ -253,7 +262,7 @@ public class PlayerSeasonInfo {
 				+ defensiveRebounds + ", rebounds=" + rebounds + ", assists="
 				+ assists + ", steals=" + steals + ", blockshots=" + blockshots
 				+ ", turnOvers=" + turnOvers + ", fouls=" + fouls + ", score="
-				+ score + "]";
+				+ score + ", effiency=" + effiency + "]";
 	}
 	
 }
