@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,11 +19,14 @@ import entity.matchentity.OverTime;
 import logicservice.matchlogicservice.MatchLogicService;
 
 public class MatchLogic implements MatchLogicService {
-	
+
+	private final static Logger log = Logger.getRootLogger();
 	final String URL_PREFIX = "http://china.nba.com/wap/static/data/scores/daily_";
 	final String URL_POSTFIX = ".json";
 	
-	public void getMatchBasicInfo() {
+	public void getMatchBasicInfo() {		
+		log.info("开始采集比赛基本信息");
+		
 		WebClient webClient = new WebClient();
 		webClient.getOptions().setCssEnabled(false);
 		webClient.getOptions().setJavaScriptEnabled(false);
@@ -32,8 +36,8 @@ public class MatchLogic implements MatchLogicService {
 		Calendar to = Calendar.getInstance();
 		Calendar from = Calendar.getInstance();
 		//2014-10-29 14-15赛季第一次常规赛
-		from.set(2014, 9, 1);
-		//from.set(2015, 5, 8);
+		//from.set(2014, 9, 1);
+		from.set(2015, 5, 10);
 		for (Calendar calendar = from; calendar.compareTo(to)<=0; calendar.add(Calendar.DAY_OF_MONTH, 1)) {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String date = simpleDateFormat.format(calendar.getTime());
@@ -44,6 +48,7 @@ public class MatchLogic implements MatchLogicService {
 					continue;
 				}
 				String json = new String(response.getContentAsString().getBytes("iso-8859-1"),"utf-8");
+				log.info(json);
 				JSONObject jsonObject = new JSONObject(json);
 				jsonObject = new JSONObject(jsonObject.getString("payload"));
 				try {
@@ -112,6 +117,8 @@ public class MatchLogic implements MatchLogicService {
 		//TODO 在这里调用data层对应方法储存list里的内容
 		
 		webClient.close();
+
+		log.info("比赛基本信息采集完成");
 	}
 
 }

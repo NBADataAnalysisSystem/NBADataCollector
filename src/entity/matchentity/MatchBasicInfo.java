@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MatchBasicInfo {
 
 	private String id;
+	private String season;
 	private String homeTeam;
 	private String awayTeam;
 	private String date;
@@ -23,6 +24,7 @@ public class MatchBasicInfo {
 	
 	public MatchBasicInfo() {
 		this.id = "";
+		this.season = "";
 		this.homeTeam = "";
 		this.awayTeam = "";
 		this.date = "";
@@ -46,6 +48,14 @@ public class MatchBasicInfo {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getSeason() {
+		return season;
+	}
+
+	public void setSeason(String season) {
+		this.season = season;
 	}
 
 	public String getHomeTeam() {
@@ -170,14 +180,15 @@ public class MatchBasicInfo {
 
 	@Override
 	public String toString() {
-		return "MatchBasicInfo [id=" + id + ", homeTeam=" + homeTeam
-				+ ", awayTeam=" + awayTeam + ", date=" + date + ", homeScore="
-				+ homeScore + ", homeScore1=" + homeScore1 + ", homeScore2="
-				+ homeScore2 + ", homeScore3=" + homeScore3 + ", homeScore4="
-				+ homeScore4 + ", awayScore=" + awayScore + ", awayScore1="
-				+ awayScore1 + ", awayScore2=" + awayScore2 + ", awayScore3="
-				+ awayScore3 + ", awayScore4=" + awayScore4 + ", isOverTime="
-				+ isOverTime + ", overTimeList=" + overTimeList + "]";
+		return "MatchBasicInfo [id=" + id + ", season=" + season
+				+ ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam
+				+ ", date=" + date + ", homeScore=" + homeScore
+				+ ", homeScore1=" + homeScore1 + ", homeScore2=" + homeScore2
+				+ ", homeScore3=" + homeScore3 + ", homeScore4=" + homeScore4
+				+ ", awayScore=" + awayScore + ", awayScore1=" + awayScore1
+				+ ", awayScore2=" + awayScore2 + ", awayScore3=" + awayScore3
+				+ ", awayScore4=" + awayScore4 + ", isOverTime=" + isOverTime
+				+ ", overTimeList=" + overTimeList + "]";
 	}
 
 }
