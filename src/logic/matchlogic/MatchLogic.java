@@ -14,6 +14,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 
+import data.DataJdbcImp;
 import entity.matchentity.MatchBasicInfo;
 import entity.matchentity.OverTime;
 import logicservice.matchlogicservice.MatchLogicService;
@@ -36,8 +37,8 @@ public class MatchLogic implements MatchLogicService {
 		Calendar to = Calendar.getInstance();
 		Calendar from = Calendar.getInstance();
 		//2014-10-29 14-15赛季第一次常规赛
-		//from.set(2014, 9, 1);
-		from.set(2015, 5, 10);
+		from.set(2013, 9, 5);
+		//from.set(2015, 5, 8);
 		for (Calendar calendar = from; calendar.compareTo(to)<=0; calendar.add(Calendar.DAY_OF_MONTH, 1)) {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String date = simpleDateFormat.format(calendar.getTime());
@@ -48,7 +49,6 @@ public class MatchLogic implements MatchLogicService {
 					continue;
 				}
 				String json = new String(response.getContentAsString().getBytes("iso-8859-1"),"utf-8");
-				log.info(json);
 				JSONObject jsonObject = new JSONObject(json);
 				jsonObject = new JSONObject(jsonObject.getString("payload"));
 				try {
@@ -62,6 +62,11 @@ public class MatchLogic implements MatchLogicService {
 					
 					MatchBasicInfo matchBasicInfo = new MatchBasicInfo();
 					matchBasicInfo.setDate(date);
+					
+					JSONObject seasonJson = new JSONObject(json);
+					seasonJson = new JSONObject(seasonJson.getString("payload"));
+					seasonJson = new JSONObject(seasonJson.getString("season"));
+					matchBasicInfo.setSeason(seasonJson.getString("yearDisplay").replace("-", ""));
 					
 					JSONObject profileJson = new JSONObject(jsonObject.getString("profile"));
 					matchBasicInfo.setId(profileJson.getString("gameId"));
@@ -115,6 +120,8 @@ public class MatchLogic implements MatchLogicService {
 		}
 		
 		//TODO 在这里调用data层对应方法储存list里的内容
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storeMatch(list);
 		
 		webClient.close();
 
