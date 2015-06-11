@@ -43,7 +43,7 @@ public class DataJdbcImp {
 				+ "HomeScore2 Integer,HomeScore3 Integer,HomeScore4 Integer,AwayScore1 Integer,"
 				+ "AwayScore2 Integer,AwayScore3 Integer,AwayScore4 Integer,HomeScore Integer,"
 				+ "AwayScore Integer,Overtime Integer);";
-		String OvertimeSql ="create table OverTime"+season+"Season(MatchID varchar(25) primary key,SerialNumber Integer,HomeScore Integer,AwayScore Integer);";
+		String OvertimeSql ="create table OverTime"+season+"Season(MatchID varchar(25) ,SerialNumber Integer,HomeScore Integer,AwayScore Integer,primary key(MatchID,SerialNumber));";
 		String PlayerSql="create table Player"+season+"Season(PlayerName varchar(10) primary key,NumOfMatch Integer,NumOfStart Integer,Rebounds Integer,"
 				+ "Assists Integer,PresenceTime Integer,Shootings Integer,Shots Integer,ShootingPersentage Double,ThreePointShootings Integer,"
 				+ "ThreePointShots Integer,ThreePointPersentage Double,FreeThrowShootings Integer,FreeThrowShots Integer,FreeThrowPersentage Double,"
@@ -180,7 +180,7 @@ public class DataJdbcImp {
 						OvertimePrep.setString(1,list.get(i).getId());
 						OvertimePrep.setString(2,overtimeList.get(j).getSerial());
 						OvertimePrep.setString(3,overtimeList.get(j).getHomeScore());
-						OvertimePrep.setString(3,overtimeList.get(j).getAwayScore());
+						OvertimePrep.setString(4,overtimeList.get(j).getAwayScore());
 						OvertimePrep.addBatch();
 					}	
 				}else{
