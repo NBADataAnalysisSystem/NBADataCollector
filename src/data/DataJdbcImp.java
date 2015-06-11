@@ -61,7 +61,7 @@ public class DataJdbcImp {
 				+ "DefensiveRebounds Integer,Rebounds Integer,Assists Integer,Steals Integer,BlockShots Integer,TurnOvers Integer,Fouls Integer,"
 				+ "Score Integer,ShootingPersentage Double,ThreePointPersentage Double,FreeThrowPersentage Double,WinRate Double,"
 				+ "AttackRound Double,DefendRound Double,OffensiveEfficiency Double,DefensiveEfficiency Double,ReboundEfficiency Double,"
-				+ "StealEfficiency Double,AssistEfficiency Double); ";
+				+ "StealEfficiency Double,AssistEfficiency Double,OffensiveRounds Double,DefensiveRounds Double); ";
 		String TeamMatchSql="create table TeamMatch"+season+"Season(TeamAbb varchar(5),MatchID varchar(14),Shootings integer,Shots integer,"
 				+ "ThreePointShootings integer,ThreePointShots integer,FreeThrowShootings integer,FreeThrowShots integer,"
 				+ "OffensiveRebounds integer,DefensiveRebounds integer,Rebounds integer,Assists integer,Steals integer,BlockShots integer,"
@@ -207,7 +207,7 @@ public class DataJdbcImp {
 	
 	public static void main(String [] args){
 		DataJdbcImp data = new DataJdbcImp();
-		data.checkSeason("20132014");
+		data.checkSeason("20142015");
 	}
 	
 
