@@ -41,7 +41,7 @@ public class DataJdbcImp {
 				+ "AwayScore2 Integer,AwayScore3 Integer,AwayScore4 Integer,HomeScore Integer,"
 				+ "AwayScore Integer,Overtime Integer);";
 		String OvertimeSql ="create table OverTime"+season+"Season(MatchID varchar(25) primary key,SerialNumber Integer,HomeScore Integer,AwayScore Integer);";
-		String PlayerSql="create table Player"+season+"Season(PlayerName varchar(10) primary key,TeamAbb varchar(4),NumOfMatch Integer,NumOfStart Integer,Rebounds Integer,"
+		String PlayerSql="create table Player"+season+"Season(PlayerName varchar(10) primary key,NumOfMatch Integer,NumOfStart Integer,Rebounds Integer,"
 				+ "Assists Integer,PresenceTime Integer,Shootings Integer,Shots Integer,ShootingPersentage Double,ThreePointShootings Integer,"
 				+ "ThreePointShots Integer,ThreePointPersentage Double,FreeThrowShootings Integer,FreeThrowShots Integer,FreeThrowPersentage Double,"
 				+ "OffensiveRebounds Integer,DefensiveRebounds Integer,Steals Integer,BlockShots Integer,TurnOvers Integer,Fouls Integer,Score Integer,Efficiency Double,"
