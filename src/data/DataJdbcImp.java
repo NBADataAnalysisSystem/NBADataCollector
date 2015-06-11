@@ -14,6 +14,9 @@ import entity.teamentity.TeamBasicInfo;
 
 public class DataJdbcImp {
 	Connection connection = null;
+	
+	//常量
+	String[] SEASON ={"20122013","20132014","20142015"};
 	public DataJdbcImp(){
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -129,10 +132,23 @@ public class DataJdbcImp {
 		}
 	}
 	
-	public void storeMatch(ArrayList<MatchBasicInfo> list){
+	public void storeMatch(ArrayList<MatchBasicInfo> originalList){
 		PreparedStatement MatchPrep = null;
 		PreparedStatement OvertimePrep = null;
-		
+		ArrayList<ArrayList<MatchBasicInfo>> classifiedList =null;
+		for(int i = 0;i <SEASON.length ;i++){
+			ArrayList<MatchBasicInfo> tempList=null;
+			classifiedList.add(tempList);
+		}
+		for(int i=0;i<originalList.size();i++){
+			for(int j=0;j<SEASON.length;j++){
+				if(originalList.get(i).getSeason().equals(SEASON[j])){
+					classifiedList.get(j).add(originalList.get(i));
+				}
+			}
+		}
+		for(int m=0;m<classifiedList.size();m++){
+			ArrayList<MatchBasicInfo> list = classifiedList.get(m);
 		try{
 			MatchPrep = connection.prepareStatement("insert into Match20132014Season values("
 					+ "?,?,?,?,?,?,?,?,?,?,"
@@ -176,6 +192,7 @@ public class DataJdbcImp {
 			connection.commit();
 		}catch (Exception e){
 			e.printStackTrace();
+		}
 		}
 	}
 	
