@@ -69,7 +69,7 @@ public class PlayerLogic implements PlayerLogicService {
 					
 					String urlName = playerPersonalDoc.getElementsByClass("infoImg").get(0)
 							.getElementsByTag("img").get(0).attr("src");
-					playerBasicInfo.setUrlName(
+					playerBasicInfo.setCode(
 							urlName.substring(urlName.indexOf("_")+1, urlName.lastIndexOf(".")));
 					
 					playerBasicInfoList.add(playerBasicInfo);
@@ -83,7 +83,7 @@ public class PlayerLogic implements PlayerLogicService {
 			WebRequest request;
 			try {
 				request = new WebRequest(new URL(
-						URL_PREFIX + playerBasicInfo.getUrlName() + URL_POSTFIX));
+						URL_PREFIX + playerBasicInfo.getCode() + URL_POSTFIX));
 				WebResponse response = webClient.loadWebResponse(request);
 				String json = new String(response.getContentAsString().getBytes("iso-8859-1"),"utf-8");
 				JSONObject jsonObject = new JSONObject(json);

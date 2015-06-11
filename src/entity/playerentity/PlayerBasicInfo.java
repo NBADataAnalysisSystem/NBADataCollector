@@ -108,11 +108,11 @@ public class PlayerBasicInfo {
 		this.school = school;
 	}
 
-	public String getUrlName() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setUrlName(String urlName) {
+	public void setCode(String urlName) {
 		this.code = urlName;
 	}
 

@@ -9,6 +9,7 @@ public class TeamBasicInfo {
 	private String division;
 	private String section;
 	private String setUpTime;
+	private String code;
 	
 	public TeamBasicInfo() {
 		id = "";
@@ -18,6 +19,7 @@ public class TeamBasicInfo {
 		division = "";
 		section = "";
 		setUpTime = "";
+		code = "";
 	}
 
 	public String getId() {
@@ -76,11 +78,20 @@ public class TeamBasicInfo {
 		this.setUpTime = setUpTime;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	@Override
 	public String toString() {
 		return "TeamBasicInfo [id=" + id + ", fullName=" + fullName
 				+ ", abbreviation=" + abbreviation + ", location=" + location
 				+ ", division=" + division + ", section=" + section
-				+ ", setUpTime=" + setUpTime + "]";
+				+ ", setUpTime=" + setUpTime + ", code=" + code + "]";
 	}
+
 }
