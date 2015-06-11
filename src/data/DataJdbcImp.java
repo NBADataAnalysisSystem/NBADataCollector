@@ -151,10 +151,10 @@ public class DataJdbcImp {
 			ArrayList<MatchBasicInfo> list = classifiedList.get(m);
 			checkSeason(SEASON[m]);
 		try{
-			MatchPrep = connection.prepareStatement("insert into Match+SEASON[m]+Season values("
+			MatchPrep = connection.prepareStatement("insert into Match"+SEASON[m]+"Season values("
 					+ "?,?,?,?,?,?,?,?,?,?,"
 					+ "?,?,?,?,?)");
-			OvertimePrep = connection.prepareStatement("insert into Overtime+SEASON[m]+Season values("
+			OvertimePrep = connection.prepareStatement("insert into Overtime"+SEASON[m]+"Season values("
 					+ "?,?,?,?)");
 			for(int i = 0;i <list.size();i ++ ){
 				MatchPrep.setString(1,list.get(i).getId());
