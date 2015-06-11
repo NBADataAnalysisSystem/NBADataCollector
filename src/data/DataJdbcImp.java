@@ -135,9 +135,9 @@ public class DataJdbcImp {
 	public void storeMatch(ArrayList<MatchBasicInfo> originalList){
 		PreparedStatement MatchPrep = null;
 		PreparedStatement OvertimePrep = null;
-		ArrayList<ArrayList<MatchBasicInfo>> classifiedList =null;
+		ArrayList<ArrayList<MatchBasicInfo>> classifiedList =new ArrayList<ArrayList<MatchBasicInfo>>();
 		for(int i = 0;i <SEASON.length ;i++){
-			ArrayList<MatchBasicInfo> tempList=null;
+			ArrayList<MatchBasicInfo> tempList=new ArrayList<MatchBasicInfo>();
 			classifiedList.add(tempList);
 		}
 		for(int i=0;i<originalList.size();i++){
