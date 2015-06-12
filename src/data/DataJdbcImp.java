@@ -64,7 +64,7 @@ public class DataJdbcImp  implements DataInterface{
 				+ "Score Integer,ShootingPersentage Double,ThreePointPersentage Double,FreeThrowPersentage Double,WinRate Double,"
 				+ "AttackRound Double,DefendRound Double,OffensiveEfficiency Double,DefensiveEfficiency Double,"
 				+ "OffensiveReboundEfficiency Double,DefensiveReboundEfficiency Double,"
-				+ "StealEfficiency Double,AssistEfficiency Double); ";
+				+ "StealEfficiency Double,AssistEfficiency Double,RivalScore Integer,RivalOffensiveRebounds Integer,RivalDefensiveRebounds Integer); ";
 		String TeamMatchSql="create table TeamMatch"+season+"Season(TeamAbb varchar(5),MatchID varchar(14),Shootings integer,Shots integer,"
 				+ "ThreePointShootings integer,ThreePointShots integer,FreeThrowShootings integer,FreeThrowShots integer,"
 				+ "OffensiveRebounds integer,DefensiveRebounds integer,Rebounds integer,Assists integer,Steals integer,BlockShots integer,"
@@ -219,7 +219,8 @@ public class DataJdbcImp  implements DataInterface{
 				prep = connection.prepareStatement("Insert into Team"+SEASON[i]+"Season values("
 						+ "?,?,?,?,?,?,?,?,?,?,"
 						+ "?,?,?,?,?,?,?,?,?,?,"
-						+ "?,?,?,?,?,?,?,?,?)");
+						+ "?,?,?,?,?,?,?,?,?,?"
+						+ "?,?)");
 				for(int j =0;j<orderdList.get(i).size();j++){
 					prep.setString(1,orderdList.get(i).get(j).getName());
 					prep.setString(2,orderdList.get(i).get(j).getNumOfMatch());
@@ -250,6 +251,9 @@ public class DataJdbcImp  implements DataInterface{
 					prep.setString(27,orderdList.get(i).get(j).getDefensiveReboundEfficiency());
 					prep.setString(28,orderdList.get(i).get(j).getStealEfficiency());
 					prep.setString(29,orderdList.get(i).get(j).getAssistEfficiency());
+					prep.setString(30,orderdList.get(i).get(j).getOpponentScore());
+					prep.setString(31,orderdList.get(i).get(j).getOpponentOffensiveRebounds());
+					prep.setString(31,orderdList.get(i).get(j).getOpponentDefensiveRebounds());
 					prep.addBatch();
 				}
 				prep.executeBatch();
@@ -279,6 +283,8 @@ public class DataJdbcImp  implements DataInterface{
 	public static void main(String [] args){
 		DataJdbcImp data = new DataJdbcImp();
 		data.checkSeason("20132014");
+		data.checkSeason("20142015");
+		data.checkSeason("20122013");
 	}
 	
 
