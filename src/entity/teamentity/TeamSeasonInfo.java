@@ -1,5 +1,7 @@
 package entity.teamentity;
 
+import java.text.DecimalFormat;
+
 public class TeamSeasonInfo {
 
 	private String name;
@@ -22,7 +24,7 @@ public class TeamSeasonInfo {
 	private String score;
 	private String shootingPersentage;
 	private String threePointShootingPersentage;
-	private String freeThrowShootingPersentage;
+	private String freeThrowShootingPersentage;	
 	private String opponentScore;
 	private String opponentOffensiveRebounds;
 	private String opponentDefensiveRebounds;
@@ -246,6 +248,58 @@ public class TeamSeasonInfo {
 		this.opponentDefensiveRebounds = opponentDefensiveRebounds;
 	}
 
+	public  String  getWinRate() {
+		return "0";
+	}
+	
+	public String getAttackRound() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(Integer.parseInt(shots)+0.4*Integer.parseInt(freeThrowShots)-1.07
+				*(Double.parseDouble(offensiveRebounds)/(Integer.parseInt(offensiveRebounds)+
+						Integer.parseInt(opponentDefensiveRebounds))*(Integer.parseInt(shots)-Integer.parseInt(shootings)))
+						+1.07*Integer.parseInt(turnOvers));
+	}
+	
+	public String getDefendRound() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(Integer.parseInt(shots)+0.4*Integer.parseInt(freeThrowShots)-1.07
+				*(Double.parseDouble(defensiveRebounds)/(Integer.parseInt(defensiveRebounds)+
+						Integer.parseInt(opponentOffensiveRebounds))*(Integer.parseInt(shots)-Integer.parseInt(shootings)))
+						+1.07*Integer.parseInt(turnOvers));
+	}
+	
+	public String getOffensiveEfficiency() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(100*Integer.parseInt(score)/Double.parseDouble(getAttackRound()));
+	}
+	
+	public String getDefensiveEfficiency() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return  df.format(100*Integer.parseInt(opponentScore)/Double.parseDouble(getDefendRound()));
+	}
+	
+	public String getOffensiveReboundEfficiency() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(Double.parseDouble(offensiveRebounds)/((Double.parseDouble(offensiveRebounds)+
+				Double.parseDouble(opponentDefensiveRebounds))));
+	}
+	
+	public String getDefensiveReboundEfficiency() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(Double.parseDouble(defensiveRebounds)/((Double.parseDouble(defensiveRebounds)+
+				Double.parseDouble(opponentOffensiveRebounds))));
+	}
+	
+	public String getStealEfficiency() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(100*Double.parseDouble(steals)/Double.parseDouble(getDefendRound()));
+	}
+	
+	public String getAssistEfficiency() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(100*Double.parseDouble(assists)/Double.parseDouble(getAttackRound()));
+	}
+	
 	@Override
 	public String toString() {
 		return "TeamSeasonInfo [name=" + name + ", season=" + season
