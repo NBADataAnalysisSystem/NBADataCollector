@@ -17,6 +17,7 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import data.DataJdbcImp;
 import entity.teamentity.TeamBasicInfo;
 import entity.teamentity.TeamSeasonInfo;
 import logicservice.teamlogicservice.TeamLogicService;
@@ -126,7 +127,8 @@ public class TeamLogic implements TeamLogicService {
 		}
 		
 		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
-		//dataJdbcImp.storeTeam(teamBasicInfoList);
+		//dataJdbcImp.storeTeamBasicInfo(teamBasicInfoList);
+		//dataJdbcImp.storeTeamSeasonInfo(teamSeasonInfoList);
 		//dataJdbcImp.close();
 		
 		webClient.close();

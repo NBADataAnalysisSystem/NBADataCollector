@@ -160,7 +160,7 @@ public class PlayerLogic implements PlayerLogicService {
 		}
 		
 		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
-		//dataJdbcImp.storePlayer(list);
+		//dataJdbcImp.storePlayerBasicInfo(playerBasicInfoList);
 		//dataJdbcImp.close();
 		
 		for (PlayerBasicInfo playerBasicInfo : playerBasicInfoList) {

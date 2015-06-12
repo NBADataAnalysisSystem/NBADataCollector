@@ -2,7 +2,9 @@ package init;
 
 import org.apache.log4j.Logger;
 
+import logic.matchlogic.MatchLogic;
 import logic.teamlogic.TeamLogic;
+import logicservice.matchlogicservice.MatchLogicService;
 import logicservice.teamlogicservice.TeamLogicService;
 
 public class Main {
