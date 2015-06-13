@@ -3,9 +3,7 @@ package init;
 import org.apache.log4j.Logger;
 
 import logic.matchlogic.MatchLogic;
-import logic.teamlogic.TeamLogic;
 import logicservice.matchlogicservice.MatchLogicService;
-import logicservice.teamlogicservice.TeamLogicService;
 
 public class Main {
 	
@@ -17,11 +15,11 @@ public class Main {
 		//PlayerLogicService playerLogic = new PlayerLogic();
 		//playerLogic.getPlayer();
 		
-		TeamLogicService teamLogic = new TeamLogic();
-		teamLogic.getTeam();
+		//TeamLogicService teamLogic = new TeamLogic();
+		//teamLogic.getTeam();
 
-		//MatchLogicService matchLogic = new MatchLogic();
-		//matchLogic.getMatchBasicInfo();
+		MatchLogicService matchLogic = new MatchLogic();
+		matchLogic.getMatchBasicInfo();
 		
 		log.info("采集数据完成");
 	}

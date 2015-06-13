@@ -16,6 +16,8 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 
 import entity.matchentity.MatchBasicInfo;
 import entity.matchentity.OverTime;
+import entity.matchentity.PlayerMatchInfo;
+import entity.matchentity.TeamMatchInfo;
 import logicservice.matchlogicservice.MatchLogicService;
 
 public class MatchLogic implements MatchLogicService {
@@ -31,13 +33,15 @@ public class MatchLogic implements MatchLogicService {
 		webClient.getOptions().setCssEnabled(false);
 		webClient.getOptions().setJavaScriptEnabled(false);
 
-		ArrayList<MatchBasicInfo> list = new ArrayList<MatchBasicInfo>();
+		ArrayList<MatchBasicInfo> matchBasicInfoList = new ArrayList<MatchBasicInfo>();
+		ArrayList<TeamMatchInfo> teamMatchInfoList = new ArrayList<TeamMatchInfo>();
+		ArrayList<PlayerMatchInfo> playerMatchInfoList = new ArrayList<PlayerMatchInfo>();
 		
 		Calendar to = Calendar.getInstance();
 		Calendar from = Calendar.getInstance();
 		//2014-10-29 14-15赛季第一次常规赛
-		//from.set(2013, 9, 5);
-		from.set(2015, 5, 8);
+		from.set(2013, 9, 5);
+		//from.set(2015, 5, 8);
 		for (Calendar calendar = from; calendar.compareTo(to)<=0; calendar.add(Calendar.DAY_OF_MONTH, 1)) {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String date = simpleDateFormat.format(calendar.getTime());
@@ -111,14 +115,14 @@ public class MatchLogic implements MatchLogicService {
 						matchBasicInfo.setOverTimeList(overTimeList);
 					}
 					
-					list.add(matchBasicInfo);
+					matchBasicInfoList.add(matchBasicInfo);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
-		for (MatchBasicInfo matchBasicInfo : list) {
+		for (MatchBasicInfo matchBasicInfo : matchBasicInfoList) {
 			final String URL_PREFIX = "http://china.nba.com/wap/static/data/game/snapshot_";
 			final String URL_POSTFIX = ".json";
 			try {
@@ -129,8 +133,130 @@ public class MatchLogic implements MatchLogicService {
 					continue;
 				}
 				String json = new String(response.getContentAsString().getBytes("iso-8859-1"),"utf-8");
-				//JSONObject jsonObject = new JSONObject(json);
-				log.info(json);
+				JSONObject jsonObject = new JSONObject(json);
+				jsonObject = new JSONObject(jsonObject.getString("payload"));
+				
+				TeamMatchInfo homeTeamMatchInfo = new TeamMatchInfo();
+				
+				JSONObject homeTeamJson = new JSONObject(jsonObject.getString("homeTeam"));
+				homeTeamMatchInfo.setSeason(matchBasicInfo.getSeason());
+				homeTeamMatchInfo.setMatchID(matchBasicInfo.getId());
+				
+				JSONObject homeTeamProfileJson = new JSONObject(homeTeamJson.getString("profile"));
+				homeTeamMatchInfo.setName(homeTeamProfileJson.getString("abbr"));
+				
+				JSONObject homeTeamScoreJson = new JSONObject(homeTeamJson.getString("score"));
+				homeTeamMatchInfo.setShootings(homeTeamScoreJson.getString("fgm"));
+				homeTeamMatchInfo.setShots(homeTeamScoreJson.getString("fga"));
+				homeTeamMatchInfo.setThreePointShootings(homeTeamScoreJson.getString("tpm"));
+				homeTeamMatchInfo.setThreePointShots(homeTeamScoreJson.getString("tpa"));
+				homeTeamMatchInfo.setFreeThrowShootings(homeTeamScoreJson.getString("ftm"));
+				homeTeamMatchInfo.setFreeThrowShots(homeTeamScoreJson.getString("fta"));
+				homeTeamMatchInfo.setOffensiveRebounds(homeTeamScoreJson.getString("offRebs"));
+				homeTeamMatchInfo.setDefensiveRebounds(homeTeamScoreJson.getString("defRebs"));
+				homeTeamMatchInfo.setRebounds(homeTeamScoreJson.getString("rebs"));
+				homeTeamMatchInfo.setAssists(homeTeamScoreJson.getString("assists"));
+				homeTeamMatchInfo.setSteals(homeTeamScoreJson.getString("steals"));
+				homeTeamMatchInfo.setBlockShots(homeTeamScoreJson.getString("blocks"));
+				homeTeamMatchInfo.setTurnOvers(homeTeamScoreJson.getString("turnovers"));
+				homeTeamMatchInfo.setFouls(homeTeamScoreJson.getString("fouls"));
+				homeTeamMatchInfo.setScore(homeTeamScoreJson.getString("score"));
+				
+				teamMatchInfoList.add(homeTeamMatchInfo);
+				
+				JSONArray homeTeamPlayersJson = new JSONArray(homeTeamJson.getString("gamePlayers"));
+				for (int i = 0; i < homeTeamPlayersJson.length(); i++) {
+					JSONObject playerJson = new JSONObject(homeTeamPlayersJson.get(i).toString());
+					PlayerMatchInfo playerMatchInfo = new PlayerMatchInfo();
+					playerMatchInfo.setSeason(matchBasicInfo.getSeason());
+					playerMatchInfo.setMatchId(matchBasicInfo.getId());
+					playerMatchInfo.setTeam(matchBasicInfo.getHomeTeam());
+					
+					JSONObject playerProfileJson = new JSONObject(playerJson.getString("profile"));
+					playerMatchInfo.setName(playerProfileJson.getString("displayNameEn"));
+					playerMatchInfo.setPosition(playerProfileJson.getString("position"));
+					
+					JSONObject playerStatJson = new JSONObject(playerJson.getString("statTotal"));
+					playerMatchInfo.setPresenceTime(playerStatJson.getString("mins"));
+					playerMatchInfo.setShootings(playerStatJson.getString("fgm"));
+					playerMatchInfo.setShots(playerStatJson.getString("fga"));
+					playerMatchInfo.setThreePointShootings(playerStatJson.getString("tpm"));
+					playerMatchInfo.setThreePointShots(playerStatJson.getString("tpa"));
+					playerMatchInfo.setFreeThrowShootings(playerStatJson.getString("ftm"));
+					playerMatchInfo.setFreeThrowShots(playerStatJson.getString("fta"));
+					playerMatchInfo.setOffensiveRebounds(playerStatJson.getString("offRebs"));
+					playerMatchInfo.setDefensiveRebounds(playerStatJson.getString("defRebs"));
+					playerMatchInfo.setRebounds(playerStatJson.getString("rebs"));
+					playerMatchInfo.setAssists(playerStatJson.getString("assists"));
+					playerMatchInfo.setSteals(playerStatJson.getString("steals"));
+					playerMatchInfo.setBlockShots(playerStatJson.getString("blocks"));
+					playerMatchInfo.setTurnOvers(playerStatJson.getString("turnovers"));
+					playerMatchInfo.setFouls(playerStatJson.getString("fouls"));
+					playerMatchInfo.setScore(playerStatJson.getString("points"));
+					
+					playerMatchInfoList.add(playerMatchInfo);
+				}
+				
+				TeamMatchInfo awayTeamMatchInfo = new TeamMatchInfo();
+				
+				JSONObject awayTeamJson = new JSONObject(jsonObject.getString("awayTeam"));
+				awayTeamMatchInfo.setSeason(matchBasicInfo.getSeason());
+				awayTeamMatchInfo.setMatchID(matchBasicInfo.getId());
+				
+				JSONObject awayTeamProfileJson = new JSONObject(awayTeamJson.getString("profile"));
+				awayTeamMatchInfo.setName(awayTeamProfileJson.getString("abbr"));
+				
+				JSONObject awayTeamScoreJson = new JSONObject(awayTeamJson.getString("score"));
+				awayTeamMatchInfo.setShootings(awayTeamScoreJson.getString("fgm"));
+				awayTeamMatchInfo.setShots(awayTeamScoreJson.getString("fga"));
+				awayTeamMatchInfo.setThreePointShootings(awayTeamScoreJson.getString("tpm"));
+				awayTeamMatchInfo.setThreePointShots(awayTeamScoreJson.getString("tpa"));
+				awayTeamMatchInfo.setFreeThrowShootings(awayTeamScoreJson.getString("ftm"));
+				awayTeamMatchInfo.setFreeThrowShots(awayTeamScoreJson.getString("fta"));
+				awayTeamMatchInfo.setOffensiveRebounds(awayTeamScoreJson.getString("offRebs"));
+				awayTeamMatchInfo.setDefensiveRebounds(awayTeamScoreJson.getString("defRebs"));
+				awayTeamMatchInfo.setRebounds(awayTeamScoreJson.getString("rebs"));
+				awayTeamMatchInfo.setAssists(awayTeamScoreJson.getString("assists"));
+				awayTeamMatchInfo.setSteals(awayTeamScoreJson.getString("steals"));
+				awayTeamMatchInfo.setBlockShots(awayTeamScoreJson.getString("blocks"));
+				awayTeamMatchInfo.setTurnOvers(awayTeamScoreJson.getString("turnovers"));
+				awayTeamMatchInfo.setFouls(awayTeamScoreJson.getString("fouls"));
+				awayTeamMatchInfo.setScore(awayTeamScoreJson.getString("score"));
+				
+				teamMatchInfoList.add(awayTeamMatchInfo);
+				
+				JSONArray awayTeamPlayersJson = new JSONArray(awayTeamJson.getString("gamePlayers"));
+				for (int i = 0; i < awayTeamPlayersJson.length(); i++) {
+					JSONObject playerJson = new JSONObject(awayTeamPlayersJson.get(i).toString());
+					PlayerMatchInfo playerMatchInfo = new PlayerMatchInfo();
+					playerMatchInfo.setSeason(matchBasicInfo.getSeason());
+					playerMatchInfo.setMatchId(matchBasicInfo.getId());
+					playerMatchInfo.setTeam(matchBasicInfo.getAwayTeam());
+					
+					JSONObject playerProfileJson = new JSONObject(playerJson.getString("profile"));
+					playerMatchInfo.setName(playerProfileJson.getString("displayNameEn"));
+					playerMatchInfo.setPosition(playerProfileJson.getString("position"));
+					
+					JSONObject playerStatJson = new JSONObject(playerJson.getString("statTotal"));
+					playerMatchInfo.setPresenceTime(playerStatJson.getString("mins"));
+					playerMatchInfo.setShootings(playerStatJson.getString("fgm"));
+					playerMatchInfo.setShots(playerStatJson.getString("fga"));
+					playerMatchInfo.setThreePointShootings(playerStatJson.getString("tpm"));
+					playerMatchInfo.setThreePointShots(playerStatJson.getString("tpa"));
+					playerMatchInfo.setFreeThrowShootings(playerStatJson.getString("ftm"));
+					playerMatchInfo.setFreeThrowShots(playerStatJson.getString("fta"));
+					playerMatchInfo.setOffensiveRebounds(playerStatJson.getString("offRebs"));
+					playerMatchInfo.setDefensiveRebounds(playerStatJson.getString("defRebs"));
+					playerMatchInfo.setRebounds(playerStatJson.getString("rebs"));
+					playerMatchInfo.setAssists(playerStatJson.getString("assists"));
+					playerMatchInfo.setSteals(playerStatJson.getString("steals"));
+					playerMatchInfo.setBlockShots(playerStatJson.getString("blocks"));
+					playerMatchInfo.setTurnOvers(playerStatJson.getString("turnovers"));
+					playerMatchInfo.setFouls(playerStatJson.getString("fouls"));
+					playerMatchInfo.setScore(playerStatJson.getString("points"));
+					
+					playerMatchInfoList.add(playerMatchInfo);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -138,7 +264,7 @@ public class MatchLogic implements MatchLogicService {
 		
 		//TODO 在这里调用data层对应方法储存list里的内容
 		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
-		//dataJdbcImp.storeMatchBasicInfo(list);
+		//dataJdbcImp.storeMatchBasicInfo(matchBasicInfoList);
 		
 		webClient.close();
 

@@ -126,10 +126,10 @@ public class TeamLogic implements TeamLogicService {
 			e.printStackTrace();
 		}
 		
-		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
 		//dataJdbcImp.storeTeamBasicInfo(teamBasicInfoList);
-		//dataJdbcImp.storeTeamSeasonInfo(teamSeasonInfoList);
-		//dataJdbcImp.close();
+		dataJdbcImp.storeTeamSeasonInfo(teamSeasonInfoList);
+		dataJdbcImp.close();
 		
 		webClient.close();
 		
