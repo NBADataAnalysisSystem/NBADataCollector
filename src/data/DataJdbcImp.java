@@ -9,7 +9,10 @@ import java.util.ArrayList;
 
 import entity.matchentity.MatchBasicInfo;
 import entity.matchentity.OverTime;
+import entity.matchentity.PlayerMatchInfo;
+import entity.matchentity.TeamMatchInfo;
 import entity.playerentity.PlayerBasicInfo;
+import entity.playerentity.PlayerSeasonInfo;
 import entity.teamentity.TeamBasicInfo;
 import entity.teamentity.TeamSeasonInfo;
 
@@ -200,7 +203,6 @@ public class DataJdbcImp  implements DataInterface{
 	}
 	
 	public void storeTeamSeasonInfo(ArrayList<TeamSeasonInfo> list){
-		// TODO 
 		ArrayList<ArrayList<TeamSeasonInfo>> orderdList = new ArrayList<ArrayList<TeamSeasonInfo>>();
 		for(int i = 0 ; i < SEASON.length; i ++ ){
 		ArrayList<TeamSeasonInfo> tempList = new ArrayList<TeamSeasonInfo>();
@@ -219,7 +221,7 @@ public class DataJdbcImp  implements DataInterface{
 				prep = connection.prepareStatement("Insert into Team"+SEASON[i]+"Season values("
 						+ "?,?,?,?,?,?,?,?,?,?,"
 						+ "?,?,?,?,?,?,?,?,?,?,"
-						+ "?,?,?,?,?,?,?,?,?,?"
+						+ "?,?,?,?,?,?,?,?,?,?,"
 						+ "?,?)");
 				for(int j =0;j<orderdList.get(i).size();j++){
 					prep.setString(1,orderdList.get(i).get(j).getName());
@@ -253,7 +255,7 @@ public class DataJdbcImp  implements DataInterface{
 					prep.setString(29,orderdList.get(i).get(j).getAssistEfficiency());
 					prep.setString(30,orderdList.get(i).get(j).getOpponentScore());
 					prep.setString(31,orderdList.get(i).get(j).getOpponentOffensiveRebounds());
-					prep.setString(31,orderdList.get(i).get(j).getOpponentDefensiveRebounds());
+					prep.setString(32,orderdList.get(i).get(j).getOpponentDefensiveRebounds());
 					prep.addBatch();
 				}
 				prep.executeBatch();
@@ -265,8 +267,53 @@ public class DataJdbcImp  implements DataInterface{
 		}
 	}
 	
-	public void storeTeamMatch(ArrayList<String[]> list){
-		// TODO
+	public void storeTeamMatchInfo(ArrayList<TeamMatchInfo> list){
+		ArrayList<ArrayList<TeamMatchInfo>> orderedList = new ArrayList<ArrayList<TeamMatchInfo>>();
+		for(int i =0;i<SEASON.length;i++){
+			orderedList.add(new ArrayList<TeamMatchInfo>());
+		}
+		for( int i=0;i<list.size();i++){
+			for( int j=0;j<SEASON.length;j++){
+				if(list.get(i).getSeason().equals(SEASON[j])){
+					orderedList.get(j).add(list.get(i));
+				}
+			}
+		}
+		
+		for(int i = 0;i< SEASON.length;i++){
+			PreparedStatement prep = null;
+			try{
+				prep = connection.prepareStatement("insert into TeamMatch"+SEASON[i]+"Season values("
+						+ "?,?,?,?,?,?,?,?,?,?,"
+						+ "?,?,?,?,?,?,?)");
+				for( int j = 0;j<orderedList.get(i).size();j++){
+					prep.setString(1,orderedList.get(i).get(j).getName());
+					prep.setString(2,orderedList.get(i).get(j).getMatchID());
+					prep.setString(3,orderedList.get(i).get(j).getShootings());
+					prep.setString(4,orderedList.get(i).get(j).getShots());
+					prep.setString(5,orderedList.get(i).get(j).getThreePointShootings());
+					prep.setString(6,orderedList.get(i).get(j).getThreePointShots());
+					prep.setString(7,orderedList.get(i).get(j).getFreeThrowShootings());
+					prep.setString(8,orderedList.get(i).get(j).getFreeThrowShots());
+					prep.setString(9,orderedList.get(i).get(j).getOffensiveRebounds());
+					prep.setString(10,orderedList.get(i).get(j).getDefensiveRebounds());
+					prep.setString(11,orderedList.get(i).get(j).getRebounds());
+					prep.setString(12,orderedList.get(i).get(j).getAssists());
+					prep.setString(13,orderedList.get(i).get(j).getSteals());
+					prep.setString(14,orderedList.get(i).get(j).getBlockShots());
+					prep.setString(15,orderedList.get(i).get(j).getTurnOvers());
+					prep.setString(16,orderedList.get(i).get(j).getFouls());
+					prep.setString(17,orderedList.get(i).get(j).getScore());
+					prep.addBatch();
+				}
+				prep.executeBatch();
+				connection.commit();
+				prep.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 
@@ -285,6 +332,121 @@ public class DataJdbcImp  implements DataInterface{
 		data.checkSeason("20132014");
 		data.checkSeason("20142015");
 		data.checkSeason("20122013");
+	}
+
+	@Override
+	public void storePlayerSeasonInfo(ArrayList<PlayerSeasonInfo> list) {
+		// TODO Auto-generated method stub
+		ArrayList<ArrayList<PlayerSeasonInfo>> orderedList = new ArrayList<ArrayList<PlayerSeasonInfo>>();
+		for(int i =0;i<SEASON.length;i++){
+			orderedList.add(new ArrayList<PlayerSeasonInfo>());
+		}
+		for( int i=0;i<list.size();i++){
+			for( int j=0;j<SEASON.length;j++){
+				if(list.get(i).getSeason().equals(SEASON[j])){
+					orderedList.get(j).add(list.get(i));
+				}
+			}
+		}
+		
+		for(int i = 0;i< SEASON.length;i++){
+			PreparedStatement prep = null;
+			try{
+				prep = connection.prepareStatement("insert into Player"+SEASON[i]+"Season values("
+						+ "?,?,?,?,?,?,?,?,?,?,"
+						+ "?,?,?,?,?,?,?,?,?,?,"
+						+ "?,?,?,?,?,?,?,?,?,?,"
+						+ "?,?,?,?)");
+				for( int j = 0;j<orderedList.get(i).size();j++){
+					prep.setString(1,orderedList.get(i).get(j).getName());
+					prep.setString(2,orderedList.get(i).get(j).getNumOfMatch());
+					prep.setString(3,orderedList.get(i).get(j).getNumOfStart());
+					prep.setString(4,orderedList.get(i).get(j).getRebounds());
+					prep.setString(5,orderedList.get(i).get(j).getAssists());
+					prep.setString(6,orderedList.get(i).get(j).getPresenceTime());
+					prep.setString(7,orderedList.get(i).get(j).getShooting());
+					prep.setString(8,orderedList.get(i).get(j).getShot());
+					prep.setString(9,orderedList.get(i).get(j).getShootingPersentage());
+					prep.setString(10,orderedList.get(i).get(j).getThreePointShooting());
+					prep.setString(11,orderedList.get(i).get(j).getThreePointShot());
+					prep.setString(12,orderedList.get(i).get(j).getThreePointShootingPersentage());
+					prep.setString(13,orderedList.get(i).get(j).getFreeThrowShooting());
+					prep.setString(14,orderedList.get(i).get(j).getFreeThrowShot());
+					prep.setString(15,orderedList.get(i).get(j).getFreeThrowShootingPersentage());
+					prep.setString(16,orderedList.get(i).get(j).getOffensiveRebounds());
+					prep.setString(17,orderedList.get(i).get(j).getDefensiveRebounds());
+					prep.setString(18,orderedList.get(i).get(j).getSteals());
+					prep.setString(19,orderedList.get(i).get(j).getBlockshots());
+					prep.setString(20,orderedList.get(i).get(j).getTurnOvers());
+					prep.setString(21,orderedList.get(i).get(j).getFouls());
+					prep.setString(22,orderedList.get(i).get(j).getScore());
+					prep.setString(23,orderedList.get(i).get(j).getEffiency());
+					prep.addBatch();
+				}
+				prep.executeBatch();
+				connection.commit();
+				prep.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
+
+	@Override
+	public void storePlayerMatchInfo(ArrayList<PlayerMatchInfo> list) {
+		// TODO Auto-generated method stub
+
+		ArrayList<ArrayList<PlayerMatchInfo>> orderedList = new ArrayList<ArrayList<PlayerMatchInfo>>();
+		for(int i =0;i<SEASON.length;i++){
+			orderedList.add(new ArrayList<PlayerMatchInfo>());
+		}
+		for( int i=0;i<list.size();i++){
+			for( int j=0;j<SEASON.length;j++){
+				if(list.get(i).getSeason().equals(SEASON[j])){
+					orderedList.get(j).add(list.get(i));
+				}
+			}
+		}
+		
+		for(int i = 0;i< SEASON.length;i++){
+			PreparedStatement prep = null;
+			try{
+				prep = connection.prepareStatement("insert into PlayerMatch"+SEASON[i]+"Season values("
+						+ "?,?,?,?,?,?,?,?,?,?,"
+						+ "?,?,?,?,?,?,?,?,?,?)");
+				for( int j = 0;j<orderedList.get(i).size();j++){
+					prep.setString(1,orderedList.get(i).get(j).getMatchId());
+					prep.setString(2,orderedList.get(i).get(j).getTeam());
+					prep.setString(3,orderedList.get(i).get(j).getName());
+					prep.setString(4,orderedList.get(i).get(j).getPosition());
+					prep.setString(5,orderedList.get(i).get(j).getPresenceTime());
+					prep.setString(6,orderedList.get(i).get(j).getShootings());
+					prep.setString(7,orderedList.get(i).get(j).getShots());
+					prep.setString(8,orderedList.get(i).get(j).getThreePointShootings());
+					prep.setString(9,orderedList.get(i).get(j).getThreePointShots());
+					prep.setString(10,orderedList.get(i).get(j).getFreeThrowShootings());
+					prep.setString(11,orderedList.get(i).get(j).getFreeThrowShots());
+					prep.setString(12,orderedList.get(i).get(j).getOffensiveRebounds());
+					prep.setString(13,orderedList.get(i).get(j).getDefensiveRebounds());
+					prep.setString(14,orderedList.get(i).get(j).getRebounds());
+					prep.setString(15,orderedList.get(i).get(j).getAssists());
+					prep.setString(16,orderedList.get(i).get(j).getSteals());
+					prep.setString(17,orderedList.get(i).get(j).getBlockShots());
+					prep.setString(18,orderedList.get(i).get(j).getTurnOvers());
+					prep.setString(19,orderedList.get(i).get(j).getFouls());
+					prep.setString(20,orderedList.get(i).get(j).getScore());
+					prep.addBatch();
+				}
+				prep.executeBatch();
+				connection.commit();
+				prep.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 
