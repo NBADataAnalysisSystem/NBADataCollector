@@ -3,6 +3,7 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -328,10 +329,76 @@ public class DataJdbcImp  implements DataInterface{
 	}
 	
 	public static void main(String [] args){
-		DataJdbcImp data = new DataJdbcImp();
-		data.checkSeason("20132014");
-		data.checkSeason("20142015");
-		data.checkSeason("20122013");
+		
+		Statement stat = null;
+		ResultSet rs = null;
+		//连接数据库
+		Connection connection1 = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			connection1 = DriverManager.getConnection("jdbc:sqlite:C:/Users/cross/Documents/Tencent Files/1304138563/FileRecv/data12.db");
+			connection1.setAutoCommit(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//收集比赛信息
+		ArrayList<MatchBasicInfo> matchList = new ArrayList<MatchBasicInfo>();
+		try{
+			stat = connection1.createStatement();
+			rs = stat.executeQuery("select * from game");
+			while(rs.next()){
+				MatchBasicInfo match = new MatchBasicInfo();
+				match.setAwayScore(rs.getString(8));
+				match.setAwayScore1(rs.getString(10));
+				match.setAwayScore2(rs.getString(12));
+				match.setAwayScore3(rs.getString(14));
+				match.setAwayScore4(rs.getString(16));
+				match.setAwayTeam(rs.getString(6));
+				match.setDate(rs.getString(4));
+				match.setHomeScore(rs.getString(7));
+				match.setHomeScore1(rs.getString(9));
+				match.setHomeScore2(rs.getString(11));
+				match.setHomeScore3(rs.getString(13));
+				match.setHomeScore4(rs.getString(15));
+				match.setHomeTeam(rs.getString(5));
+				match.setId(rs.getString(2));
+				match.setOverTime((!rs.getString(17).equals("0"))||(!rs.getString(22).equals("0")));
+				ArrayList<OverTime> overtimeList = new ArrayList<OverTime>();
+				for(int i=0;i<5;i++){
+					if((!rs.getString(17+i).equals("0"))||(!rs.getString(22+i).equals("0"))){
+						OverTime overtime = new OverTime();
+						overtime.setAwayScore(rs.getString(22+i));
+						overtime.setHomeScore(rs.getString(17+i));
+						overtime.setSerial((i+1)+"");
+						overtimeList.add(overtime);
+					}
+				}
+				match.setOverTimeList(overtimeList);
+				match.setSeason("20122013");
+				matchList.add(match);
+			}
+			stat.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		//保存比赛数据
+		DataJdbcImp d = new DataJdbcImp();
+		for(int i =0;i<matchList.size();i++){
+			System.out.println(matchList.get(i).toString());
+		}
+		d.storeMatchBasicInfo(matchList);
+		
+		//关闭数据库
+		try{
+			connection1.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -390,7 +457,6 @@ public class DataJdbcImp  implements DataInterface{
 				e.printStackTrace();
 			}
 		}
-		
 		
 	}
 
