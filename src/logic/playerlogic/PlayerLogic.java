@@ -24,6 +24,7 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import data.DataJdbcImp;
 import entity.playerentity.PlayerBasicInfo;
 import entity.playerentity.PlayerSeasonInfo;
 import logicservice.playerlogicservice.PlayerLogicService;
@@ -159,9 +160,10 @@ public class PlayerLogic implements PlayerLogicService {
 			}
 		}
 		
-		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
-		//dataJdbcImp.storePlayerBasicInfo(playerBasicInfoList);
-		//dataJdbcImp.close();
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storePlayerBasicInfo(playerBasicInfoList);
+		dataJdbcImp.storePlayerSeasonInfo(playerSeasonInfoList);
+		dataJdbcImp.close();
 		
 		for (PlayerBasicInfo playerBasicInfo : playerBasicInfoList) {
 			getPlayerHeadPicture(playerBasicInfo, DATA_PATH + "/player/head/");

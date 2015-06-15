@@ -14,6 +14,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 
+import data.DataJdbcImp;
 import entity.matchentity.MatchBasicInfo;
 import entity.matchentity.OverTime;
 import entity.matchentity.PlayerMatchInfo;
@@ -41,7 +42,7 @@ public class MatchLogic implements MatchLogicService {
 		Calendar from = Calendar.getInstance();
 		//2014-10-29 14-15赛季第一次常规赛
 		from.set(2013, 9, 5);
-		//from.set(2015, 5, 8);
+		//from.set(2015, 2, 14);
 		for (Calendar calendar = from; calendar.compareTo(to)<=0; calendar.add(Calendar.DAY_OF_MONTH, 1)) {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String date = simpleDateFormat.format(calendar.getTime());
@@ -194,7 +195,10 @@ public class MatchLogic implements MatchLogicService {
 					playerMatchInfo.setFouls(playerStatJson.getString("fouls"));
 					playerMatchInfo.setScore(playerStatJson.getString("points"));
 					
-					playerMatchInfoList.add(playerMatchInfo);
+					if ((!playerMatchInfo.getPosition().equals("null")
+							&&(!playerMatchInfo.getPosition().equals("")))) {
+						playerMatchInfoList.add(playerMatchInfo);
+					}
 				}
 				
 				TeamMatchInfo awayTeamMatchInfo = new TeamMatchInfo();
@@ -255,7 +259,10 @@ public class MatchLogic implements MatchLogicService {
 					playerMatchInfo.setFouls(playerStatJson.getString("fouls"));
 					playerMatchInfo.setScore(playerStatJson.getString("points"));
 					
-					playerMatchInfoList.add(playerMatchInfo);
+					if ((!playerMatchInfo.getPosition().equals("null")
+							&&(!playerMatchInfo.getPosition().equals("")))) {
+						playerMatchInfoList.add(playerMatchInfo);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -263,8 +270,11 @@ public class MatchLogic implements MatchLogicService {
 		}
 		
 		//TODO 在这里调用data层对应方法储存list里的内容
-		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
-		//dataJdbcImp.storeMatchBasicInfo(matchBasicInfoList);
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storeMatchBasicInfo(matchBasicInfoList);
+		dataJdbcImp.storePlayerMatchInfo(playerMatchInfoList);
+		dataJdbcImp.storeTeamMatchInfo(teamMatchInfoList);
+		dataJdbcImp.close();
 		
 		webClient.close();
 
