@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import entity.hotentity.HotPlayerInfo;
 import entity.matchentity.MatchBasicInfo;
 import entity.matchentity.OverTime;
 import entity.matchentity.PlayerMatchInfo;
@@ -518,18 +519,37 @@ public class DataJdbcImp  implements DataInterface{
 		
 	}
 
-	public void storeLiftRate(){
+	public void storeLiftRate(ArrayList<HotPlayerInfo> list){
 		Statement stat = null;
+		PreparedStatement prep = null;
 		try{
 			stat = connection.createStatement();
+			stat.execute("drop table LiftRate if exists");
 			stat.execute("create table LiftRate (PlayerName varchar(15),Score double,ScoreRate double,Rebounds double,ReboundRate double,Assists double,AssistRate double)");
-			
+			connection.commit();
+			stat.close();
+			prep = connection.prepareStatement("insert into LiftRate values(?,?,?,?,?,?,?)");
+			for(int i=0;i<list.size();i++){
+				prep.setString(1,list.get(i).getName());
+				prep.setString(2,list.get(i).getScore());
+				prep.setString(3,list.get(i).getScoreRate());
+				prep.setString(4,list.get(i).getRebound());
+				prep.setString(5,list.get(i).getReboundRate());
+				prep.setString(6,list.get(i).getAssist());
+				prep.setString(7,list.get(i).getAssistRate());
+				prep.addBatch();
+			}
+			prep.executeBatch();
+			connection.commit();
+			prep.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
 	}
 
+	
+	
 	public void calculate(){
 		Statement stat = null;
 		try{
