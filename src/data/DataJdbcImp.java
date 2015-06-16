@@ -408,7 +408,7 @@ public class DataJdbcImp  implements DataInterface{
 	public void storePlayerSeasonInfo(ArrayList<PlayerSeasonInfo> list) {
 		// TODO Auto-generated method stub
 		String[] SEASON ={"19961997","19971998","19981999","19992000","20002001","20012002","20022003","20032004","20042005","20052006"
-				,"20062007","20072008","20082009","20092010","20102011","20112012","20122013","20132014","20142015"};
+				,"20062007","20072008","20082009","20092010","20102011","20112012"};
 		ArrayList<ArrayList<PlayerSeasonInfo>> orderedList = new ArrayList<ArrayList<PlayerSeasonInfo>>();
 		for(int i =0;i<SEASON.length;i++){
 			orderedList.add(new ArrayList<PlayerSeasonInfo>());
