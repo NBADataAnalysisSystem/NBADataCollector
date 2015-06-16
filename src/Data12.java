@@ -174,9 +174,17 @@ public class Data12 {
 			teamSeasonInfo.setFouls(strings[22]);
 			teamSeasonInfo.setScore(strings[23]);
 			teamSeasonInfo.setWinRate(strings[28]);
+			teamSeasonInfo.setAttackRound(strings[24]);
+			teamSeasonInfo.setDefendRound("DR");
+			teamSeasonInfo.setOffensiveEfficiency(strings[29]);
+			teamSeasonInfo.setDefensiveEfficiency(strings[30]);
+			teamSeasonInfo.setOffensiveReboundEfficiency(strings[31]);
+			teamSeasonInfo.setDefensiveReboundEfficiency(strings[32]);
+			teamSeasonInfo.setStealEfficiency(strings[33]);
+			teamSeasonInfo.setAssistEfficiency(strings[34]);
 			
 			//System.out.println(Arrays.asList(strings));
-			System.out.println(teamSeasonInfo);
+			//System.out.println(teamSeasonInfo);
 			
 			teamSeasonInfoList.add(teamSeasonInfo);
 		}
