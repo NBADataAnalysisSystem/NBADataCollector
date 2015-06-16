@@ -28,6 +28,7 @@ public class TeamSeasonInfo {
 	private String opponentScore;
 	private String opponentOffensiveRebounds;
 	private String opponentDefensiveRebounds;
+	private String winRate;
 	
 	public TeamSeasonInfo() {
 		this.name = "";
@@ -54,6 +55,7 @@ public class TeamSeasonInfo {
 		this.opponentScore = "";
 		this.opponentOffensiveRebounds = "";
 		this.opponentDefensiveRebounds = "";
+		this.winRate = "";
 	}
 
 	public String getName() {
@@ -249,7 +251,7 @@ public class TeamSeasonInfo {
 	}
 
 	public  String  getWinRate() {
-		return "0";
+		return winRate;
 	}
 	
 	public String getAttackRound() {
@@ -299,7 +301,11 @@ public class TeamSeasonInfo {
 		DecimalFormat df = new DecimalFormat("#.00");
 		return df.format(100*Double.parseDouble(assists)/Double.parseDouble(getAttackRound()));
 	}
-	
+
+	public void setWinRate(String winRate) {
+		this.winRate = winRate;
+	}
+
 	@Override
 	public String toString() {
 		return "TeamSeasonInfo [name=" + name + ", season=" + season
@@ -319,7 +325,7 @@ public class TeamSeasonInfo {
 				+ freeThrowShootingPersentage + ", opponentScore="
 				+ opponentScore + ", opponentOffensiveRebounds="
 				+ opponentOffensiveRebounds + ", opponentDefensiveRebounds="
-				+ opponentDefensiveRebounds + "]";
+				+ opponentDefensiveRebounds + ", winRate=" + winRate + "]";
 	}
 	
 }

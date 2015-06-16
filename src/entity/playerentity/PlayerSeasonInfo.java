@@ -51,6 +51,7 @@ public class PlayerSeasonInfo {
 		this.turnOvers = "";
 		this.fouls = "";
 		this.score = "";
+		this.effiency = "";
 	}
 	
 	public String getName() {
