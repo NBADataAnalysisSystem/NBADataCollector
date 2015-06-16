@@ -330,7 +330,7 @@ public class DataJdbcImp  implements DataInterface{
 	
 	public static void main(String [] args){
 		
-		Statement stat = null;
+		/**Statement stat = null;
 		ResultSet rs = null;
 		//连接数据库
 		Connection connection1 = null;
@@ -398,7 +398,10 @@ public class DataJdbcImp  implements DataInterface{
 			connection1.close();
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}**/
+		
+		DataJdbcImp d = new DataJdbcImp();
+		d.calculate();
 	}
 
 	@Override
@@ -514,6 +517,61 @@ public class DataJdbcImp  implements DataInterface{
 		}
 		
 	}
-	
 
+	public void storeLiftRate(){
+		Statement stat = null;
+		try{
+			stat = connection.createStatement();
+			stat.execute("create table LiftRate (PlayerName varchar(15),Score double,ScoreRate double,Rebounds double,ReboundRate double,Assists double,AssistRate double)");
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void calculate(){
+		Statement stat = null;
+		try{
+			stat = connection.createStatement();
+			for(int i =0;i<SEASON.length;i++){
+				stat.execute("update Player"+SEASON[i]+"Season set GmSc=Score+0.4*Shootings-0.7*Shots-0.4*(FreeThrowShots-FreeThrowShootings)"
+						+ "+0.7*OffensiveRebounds+0.3*DefensiveRebounds+Steals+0.7*Assists+0.7*BlockShots-0.4*Fouls-TurnOvers,RealShootingPersentage="
+						+ "round(1.0*Score/(2*(Shots+0.44*FreeThrowShots)),2),ShootingEfficiency=round((Shootings+0.5*ThreePointShootings)/Shots,2);");
+				stat.execute("update Player"+SEASON[i]+"Season set ReboundRate = round(1.0*Rebounds*(82*48)/PresenceTime/"
+						+ "((select Rebounds from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and Player.TeamAbb=Team"+SEASON[i]+"Season.TeamAbb)+"
+						+ "(select RivalOffensiveRebounds+RivalDefensiveRebounds from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Player.TeamAbb=Team"+SEASON[i]+"Season.TeamAbb)),2);");
+				stat.execute("update Player"+SEASON[i]+"Season set OffensiveReboundRate = round(1.0*OffensiveRebounds*(82*48)/PresenceTime/"
+						+ "((select OffensiveRebounds from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and Player.TeamAbb=Team"+SEASON[i]+"Season.TeamAbb)+"
+						+ "(select RivalOffensiveRebounds from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Player.TeamAbb=Team"+SEASON[i]+"Season.TeamAbb)),2);");
+				stat.execute("update Player"+SEASON[i]+"Season set DefensiveReboundRate = round(1.0*DefensiveRebounds*(82*48)/PresenceTime/"
+						+ "((select DefensiveRebounds from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and Player.TeamAbb=Team"+SEASON[i]+"Season.TeamAbb)+"
+						+ "(select RivalDefensiveRebounds from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Player.TeamAbb=Team"+SEASON[i]+"Season.TeamAbb)),2);");
+				stat.execute("update Player"+SEASON[i]+"Season set AssistRate=round(Assists/(1.0*PresenceTime/(82*48)*((select Shootings from Team"+SEASON[i]+"Season,Player "
+						+ "where Player.Name=PlayerName and "
+						+ "Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb )-Shootings)),3);");
+				stat.execute("update Player"+SEASON[i]+"Season set StealRate=round(1.0*Steals*(82*48)/Presencetime/(select RivalOffensiveRebounds from "
+						+ "Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and"
+						+ " Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb ),2);");
+				stat.execute("update Player"+SEASON[i]+"Season set BlockShotRate=round(1.0*BlockShots*(82*48)/Presencetime/((select Shots from Team"+SEASON[i]+"Season,Player "
+						+ "where Player.Name=PlayerName and "
+						+ "Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb)-(select FreeThrowShots from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb)),2);");
+				stat.execute("update Player"+SEASON[i]+"Season set TurnOverRate=round((1.0*TurnOvers/(Shots-Shootings+0.44*FreeThrowShots+TurnOvers)),2);");
+				stat.execute("update Player"+SEASON[i]+"Season set UseRate=round((Shots+0.44*FreeThrowShots+TurnOvers)*(82*48)/PresenceTime/((select Shots from "
+						+ "Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb)+0.44*(select FreeThrowShots from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb)+(select TurnOvers from Team"+SEASON[i]+"Season,Player where Player.Name=PlayerName and "
+						+ "Team"+SEASON[i]+"Season.TeamAbb=Player.TeamAbb)),2)");
+			}
+			connection.commit();
+			stat.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
 }
