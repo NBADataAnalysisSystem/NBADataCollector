@@ -3,7 +3,6 @@ package data;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -524,7 +523,7 @@ public class DataJdbcImp  implements DataInterface{
 		PreparedStatement prep = null;
 		try{
 			stat = connection.createStatement();
-			stat.execute("drop table LiftRate if exists");
+			stat.execute("drop table if exists LiftRate");
 			stat.execute("create table LiftRate (PlayerName varchar(15),Score double,ScoreRate double,Rebounds double,ReboundRate double,Assists double,AssistRate double)");
 			connection.commit();
 			stat.close();

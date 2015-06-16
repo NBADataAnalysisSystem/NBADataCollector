@@ -11,6 +11,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 
+import data.DataJdbcImp;
 import entity.hotentity.HotPlayerInfo;
 import logicservice.hotlogicservice.HotLogicService;
 
@@ -31,8 +32,7 @@ public class HotLogic implements HotLogicService {
 		
 		WebRequest request;
 		try {
-			request = new WebRequest(new URL(
-					URL_PREFIX + URL_POSTFIX));
+			request = new WebRequest(new URL(URL_PREFIX + URL_POSTFIX));
 			WebResponse response = webClient.loadWebResponse(request);
 			String json = new String(response.getContentAsString().getBytes("iso-8859-1"),"utf-8");
 			JSONObject jsonObject = new JSONObject(json);
@@ -85,6 +85,9 @@ public class HotLogic implements HotLogicService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
+		
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storeLiftRate(hotPlayerInfoList);
 		
 		webClient.close();
 		
