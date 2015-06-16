@@ -30,6 +30,47 @@ public class TeamSeasonInfo {
 	private String opponentDefensiveRebounds;
 	private String winRate;
 	
+	private String attackRound;
+	private String defendRound;
+	private String offensiveEfficiency;
+	private String defensiveEfficiency;
+	private String offensiveReboundEfficiency;
+	private String defensiveReboundEfficiency;
+	private String stealEfficiency;
+	private String assistEfficiency;
+	
+	public void setAttackRound(String attackRound) {
+		this.attackRound = attackRound;
+	}
+
+	public void setDefendRound(String defendRound) {
+		this.defendRound = defendRound;
+	}
+
+	public void setOffensiveEfficiency(String offensiveEfficiency) {
+		this.offensiveEfficiency = offensiveEfficiency;
+	}
+
+	public void setDefensiveEfficiency(String defensiveEfficiency) {
+		this.defensiveEfficiency = defensiveEfficiency;
+	}
+
+	public void setOffensiveReboundEfficiency(String offensiveReboundEfficiency) {
+		this.offensiveReboundEfficiency = offensiveReboundEfficiency;
+	}
+
+	public void setDefensiveReboundEfficiency(String defensiveReboundEfficiency) {
+		this.defensiveReboundEfficiency = defensiveReboundEfficiency;
+	}
+
+	public void setStealEfficiency(String stealEfficiency) {
+		this.stealEfficiency = stealEfficiency;
+	}
+
+	public void setAssistEfficiency(String assistEfficiency) {
+		this.assistEfficiency = assistEfficiency;
+	}
+
 	public TeamSeasonInfo() {
 		this.name = "";
 		this.season = "";
@@ -56,6 +97,14 @@ public class TeamSeasonInfo {
 		this.opponentOffensiveRebounds = "";
 		this.opponentDefensiveRebounds = "";
 		this.winRate = "";
+		this.attackRound="";
+		this.defendRound="";
+		this.offensiveEfficiency="";
+		this.defensiveEfficiency="";
+		this.offensiveReboundEfficiency="";
+		this.defensiveReboundEfficiency="";
+		this.assistEfficiency="";
+		this.stealEfficiency="";
 	}
 
 	public String getName() {
@@ -255,51 +304,77 @@ public class TeamSeasonInfo {
 	}
 	
 	public String getAttackRound() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(Integer.parseInt(shots)+0.4*Integer.parseInt(freeThrowShots)-1.07
-				*(Double.parseDouble(offensiveRebounds)/(Integer.parseInt(offensiveRebounds)+
-						Integer.parseInt(opponentDefensiveRebounds))*(Integer.parseInt(shots)-Integer.parseInt(shootings)))
-						+1.07*Integer.parseInt(turnOvers));
+		if(attackRound.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return attackRound=df.format(Integer.parseInt(shots)+0.4*Integer.parseInt(freeThrowShots)-1.07
+					*(Double.parseDouble(offensiveRebounds)/(Integer.parseInt(offensiveRebounds)+
+							Integer.parseInt(opponentDefensiveRebounds))*(Integer.parseInt(shots)-Integer.parseInt(shootings)))
+							+1.07*Integer.parseInt(turnOvers));
+		}else return attackRound;
+		
 	}
 	
 	public String getDefendRound() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(Integer.parseInt(shots)+0.4*Integer.parseInt(freeThrowShots)-1.07
-				*(Double.parseDouble(defensiveRebounds)/(Integer.parseInt(defensiveRebounds)+
-						Integer.parseInt(opponentOffensiveRebounds))*(Integer.parseInt(shots)-Integer.parseInt(shootings)))
-						+1.07*Integer.parseInt(turnOvers));
+		if(defendRound.equals("DR")){
+			return "0";
+		}else{
+			DecimalFormat df = new DecimalFormat("#.00");
+			return defendRound=df.format(Integer.parseInt(shots)+0.4*Integer.parseInt(freeThrowShots)-1.07
+					*(Double.parseDouble(defensiveRebounds)/(Integer.parseInt(defensiveRebounds)+
+							Integer.parseInt(opponentOffensiveRebounds))*(Integer.parseInt(shots)-Integer.parseInt(shootings)))
+							+1.07*Integer.parseInt(turnOvers));
+		}
+		
 	}
 	
 	public String getOffensiveEfficiency() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(100*Integer.parseInt(score)/Double.parseDouble(getAttackRound()));
+		if(offensiveEfficiency.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return offensiveEfficiency= df.format(100*Integer.parseInt(score)/Double.parseDouble(getAttackRound()));
+		}else return offensiveEfficiency;
+		
 	}
 	
 	public String getDefensiveEfficiency() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return  df.format(100*Integer.parseInt(opponentScore)/Double.parseDouble(getDefendRound()));
+		if(defensiveEfficiency.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return  defensiveEfficiency=df.format(100*Integer.parseInt(opponentScore)/Double.parseDouble(getDefendRound()));
+		}else return defensiveEfficiency;
+		
 	}
 	
 	public String getOffensiveReboundEfficiency() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(Double.parseDouble(offensiveRebounds)/((Double.parseDouble(offensiveRebounds)+
-				Double.parseDouble(opponentDefensiveRebounds))));
+		if(offensiveReboundEfficiency.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return offensiveReboundEfficiency=df.format(Double.parseDouble(offensiveRebounds)/((Double.parseDouble(offensiveRebounds)+
+					Double.parseDouble(opponentDefensiveRebounds))));
+		}else return offensiveReboundEfficiency;
+		
 	}
 	
 	public String getDefensiveReboundEfficiency() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(Double.parseDouble(defensiveRebounds)/((Double.parseDouble(defensiveRebounds)+
-				Double.parseDouble(opponentOffensiveRebounds))));
+		if(defensiveReboundEfficiency.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return defensiveReboundEfficiency=df.format(Double.parseDouble(defensiveRebounds)/((Double.parseDouble(defensiveRebounds)+
+					Double.parseDouble(opponentOffensiveRebounds))));
+		}else return defensiveReboundEfficiency;
+		
 	}
 	
 	public String getStealEfficiency() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(100*Double.parseDouble(steals)/Double.parseDouble(getDefendRound()));
+		if(stealEfficiency.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return stealEfficiency=df.format(100*Double.parseDouble(steals)/Double.parseDouble(getDefendRound()));
+		}else return stealEfficiency;
+		
 	}
 	
 	public String getAssistEfficiency() {
-		DecimalFormat df = new DecimalFormat("#.00");
-		return df.format(100*Double.parseDouble(assists)/Double.parseDouble(getAttackRound()));
+		if(assistEfficiency.equals("")){
+			DecimalFormat df = new DecimalFormat("#.00");
+			return assistEfficiency=df.format(100*Double.parseDouble(assists)/Double.parseDouble(getAttackRound()));
+		}else return assistEfficiency;
+		
 	}
 
 	public void setWinRate(String winRate) {
