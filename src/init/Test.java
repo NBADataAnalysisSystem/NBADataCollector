@@ -13,7 +13,7 @@ public class Test {
 		log.info("开始采集数据");
 
 		MatchLogicService matchLogic = new MatchLogic();
-		matchLogic.getMatchBasicInfo("2015-6-8", "2015-6-16");
+		matchLogic.getMatchBasicInfo("2015-6-8", "2015-6-17");
 		
 		log.info("采集数据完成");
 	}

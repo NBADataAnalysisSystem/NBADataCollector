@@ -14,6 +14,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 
+import data.DataJdbcImp;
 import entity.matchentity.MatchBasicInfo;
 import entity.matchentity.OverTime;
 import entity.matchentity.PlayerMatchInfo;
@@ -277,11 +278,11 @@ public class MatchLogic implements MatchLogicService {
 		}
 		
 		//TODO 在这里调用data层对应方法储存list里的内容
-		//DataJdbcImp dataJdbcImp = new DataJdbcImp();
-		//dataJdbcImp.storeMatchBasicInfo(matchBasicInfoList);
+		DataJdbcImp dataJdbcImp = new DataJdbcImp();
+		dataJdbcImp.storeMatchBasicInfo(matchBasicInfoList);
 		//dataJdbcImp.storePlayerMatchInfo(playerMatchInfoList);
 		//dataJdbcImp.storeTeamMatchInfo(teamMatchInfoList);
-		//dataJdbcImp.close();
+		dataJdbcImp.close();
 		
 		webClient.close();
 
